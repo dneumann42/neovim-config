@@ -1,7 +1,13 @@
+require('neodev').setup()
+
 local cmp = require("cmp")
 local luasnip = require("luasnip")
+
+require('mason').setup()
+require('mason-lspconfig').setup()
+
 local lspconfig = require("lspconfig")
-local mason_lspconfig = require("cmp_nvim_lsp")
+local mason_lspconfig = require("mason-lspconfig")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
@@ -21,7 +27,7 @@ local servers = {
 }
 
 --  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(_, bufnr)
+local function on_attach(_, bufnr)
   local nmap = function(keys, func, desc)
     if desc then
       desc = 'LSP: ' .. desc

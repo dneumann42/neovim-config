@@ -18,9 +18,14 @@ map('', '<right>', '<nop>')
 
 -- clear highlight
 map('n', '<leader>c', ':nohl<cr>')
+
+-- finding things
 map('n', '<leader>/', ':Telescope live_grep<cr>')
 map('n', '<leader>f', ':Telescope find_files<cr>')
 map('n', '<leader>b', ':Telescope buffers<cr>')
+
+-- explorer
+map('n', '<leader>e', ':NvimTreeToggle<cr>')
 
 map('n', '<C-l>', ':wincmd l<cr>')
 map('n', '<C-h>', ':wincmd h<cr>')

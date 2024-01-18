@@ -11,6 +11,9 @@ M.plugins = {
   -- Detect tabstop and shiftwidth
   'tpope/vim-sleuth',
 
+  -- autocompletion for vim config
+  { "folke/neodev.nvim", opts = {} },
+
   {
     -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
@@ -53,6 +56,10 @@ M.plugins = {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
   },
+
+  -- startup and sessions
+  { 'echasnovski/mini.sessions', version = '*' },
+  { 'echasnovski/mini.starter', version = '*' },
 
   {
     'nvim-telescope/telescope.nvim',
