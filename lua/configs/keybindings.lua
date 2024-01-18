@@ -17,6 +17,12 @@ map('', '<left>', '<nop>')
 map('', '<right>', '<nop>')
 
 -- clear highlight
-
 map('n', '<leader>c', ':nohl<cr>')
 map('n', '<leader>/', ':Telescope live_grep<cr>')
+map('n', '<leader>f', ':Telescope find_files<cr>')
+map('n', '<leader>b', ':Telescope buffers<cr>')
+
+map('n', '<C-l>', ':wincmd l<cr>')
+map('n', '<C-h>', ':wincmd h<cr>')
+map('n', '<C-j>', ':wincmd j<cr>')
+map('n', '<C-k>', ':wincmd k<cr>')
