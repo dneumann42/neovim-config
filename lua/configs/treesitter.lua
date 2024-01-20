@@ -16,9 +16,9 @@ vim.defer_fn(function()
     incremental_selection = {
       enable = true,
       keymaps = {
-        init_selection = '<c-space>',
-        node_incremental = '<c-space>',
-        scope_incremental = '<c-s>',
+        init_selection = '<c-M-space>',
+        node_incremental = '<c-M-space>',
+        scope_incremental = '<c-M-s>',
         node_decremental = '<M-space>',
       },
     },
@@ -68,4 +68,3 @@ vim.defer_fn(function()
     },
   }
 end, 0)
-

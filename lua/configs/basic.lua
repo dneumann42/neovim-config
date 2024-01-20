@@ -7,10 +7,14 @@ vim.cmd [[
 set clipboard+=unnamedplus
 set number
 set autoread
+
+au BufNewFile,BufRead *.owl set filetype=owl
+au Syntax *.owl runtime! syntax/owl.vim
 ]]
 
 require("nvim-surround").setup {}
 require("nvim_comment").setup {}
+require("autoclose").setup {}
 
 require("notify").setup {
   background_colour = "#000000",

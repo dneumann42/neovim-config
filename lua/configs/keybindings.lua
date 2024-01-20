@@ -23,6 +23,7 @@ map('n', '<leader>c', ':nohl<cr>')
 map('n', '<leader>/', ':Telescope live_grep<cr>')
 map('n', '<leader>f', ':Telescope find_files<cr>')
 map('n', '<leader>b', ':Telescope buffers<cr>')
+map('n', '<leader>G', ':Git<cr>')
 
 -- explorer
 map('n', '<leader>e', ':NvimTreeToggle<cr>')
@@ -43,3 +44,13 @@ map('n', '<leader>tc', ':tabclose<cr>')
 
 map('n', '<leader>q', ':qa<cr>')
 map('n', '<leader>w', ':w<cr>')
+
+-- Emacs style splitting
+map('n', '<C-x>1', ':only<cr>')
+map('n', '<C-x>2', ':split<cr>')
+map('n', '<C-x>3', ':vsplit<cr>')
+map('n', '<C-x>0', ':x<cr>')
+
+-- floaterm
+map('n', '<C-x><space>', ':FloatermToggle<cr>')
+map('t', '<C-x><space>', "<C-\\>n :FloatermToggle<cr>")

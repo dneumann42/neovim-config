@@ -109,8 +109,10 @@ M.plugins = {
   { "m4xshen/autoclose.nvim" },
   { "terrortylor/nvim-comment" },
   { "rktjmp/fwatch.nvim" },
-
   { "rcarriga/nvim-notify" },
+
+  -- terminal
+  { "akinsho/toggleterm.nvim" }
 }
 
 M.bootstrap = function()

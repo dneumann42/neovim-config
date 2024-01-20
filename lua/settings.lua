@@ -1,6 +1,8 @@
 local settings_template = {
   is_transparent = false,
   colorscheme = "melange",
+  tabs = 2,
+  wiki = "~/.wiki",
 }
 
 local fmt = string.format
@@ -60,7 +62,7 @@ function M.set(idx, v, noemit)
   save_settings(settings)
 end
 
-local watchers = { }
+local watchers = {}
 local file_times = {}
 
 local function last_write_time(path)
