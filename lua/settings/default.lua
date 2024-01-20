@@ -1,4 +1,5 @@
 return {
-  colorscheme = "melange",
-  is_transparent = true
+  colorscheme = "kanagawa",
+  is_transparent = true,
+  tabs = 2
 }

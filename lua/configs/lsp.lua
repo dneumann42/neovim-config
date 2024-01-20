@@ -30,6 +30,8 @@ local servers = {
   }
 }
 
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
 --  This function gets run when an LSP connects to a particular buffer.
 local function on_attach(_, bufnr)
   local nmap = function(keys, func, desc)
@@ -38,6 +40,15 @@ local function on_attach(_, bufnr)
     end
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
+
+  vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    group = augroup,
+    buffer = bufnr,
+    callback = function()
+      vim.lsp.buf.format()
+    end,
+  })
 
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
@@ -104,7 +115,7 @@ for _, server_name in ipairs(vim.tbl_keys(servers)) do
   }
 end
 
-require'lspconfig'.nim_langserver.setup{ }
+require 'lspconfig'.nim_langserver.setup {}
 
 cmp.setup {
   snippet = {

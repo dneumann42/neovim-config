@@ -90,9 +90,11 @@ M.plugins = {
     build = ':TSUpdate',
   },
 
-  {"norcalli/nvim-colorizer.lua"},
+  { "norcalli/nvim-colorizer.lua" },
 
   { "savq/melange-nvim" },
+  { "rebelot/kanagawa.nvim" },
+  { "kepano/flexoki" },
 
   -- Discovery and help
   {

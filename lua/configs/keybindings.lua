@@ -1,5 +1,5 @@
 local function map(mode, lhs, rhs, opts)
-  local options = { noremap = true, silent = true } 
+  local options = { noremap = true, silent = true }
   if opts then
     options = vim.tbl_extend('force', options, opts)
   end
@@ -34,3 +34,12 @@ map('n', '<C-k>', ':wincmd k<cr>')
 
 -- commenting
 map('n', '<c-/>', ':CommentToggle<cr>')
+
+-- tabs
+map('n', '<leader>T', ':tabnew<cr>')
+map('n', '<leader>tn', ':tabnext<cr>')
+map('n', '<leader>tp', ':tabprevious<cr>')
+map('n', '<leader>tc', ':tabclose<cr>')
+
+map('n', '<leader>q', ':qa<cr>')
+map('n', '<leader>w', ':w<cr>')
