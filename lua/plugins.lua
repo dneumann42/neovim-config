@@ -57,7 +57,7 @@ M.plugins = {
     dependencies = { 'nvim-tree/nvim-web-devicons' },
   },
 
-  -- startup and sessions
+  -- Startup and sessions
   { 'echasnovski/mini.sessions', version = '*' },
   { 'echasnovski/mini.starter',  version = '*' },
 
@@ -90,6 +90,8 @@ M.plugins = {
     build = ':TSUpdate',
   },
 
+  {"norcalli/nvim-colorizer.lua"},
+
   { "savq/melange-nvim" },
 
   -- Discovery and help
@@ -104,6 +106,9 @@ M.plugins = {
   { "kylechui/nvim-surround" },
   { "m4xshen/autoclose.nvim" },
   { "terrortylor/nvim-comment" },
+  { "rktjmp/fwatch.nvim" },
+
+  { "rcarriga/nvim-notify" },
 }
 
 M.bootstrap = function()

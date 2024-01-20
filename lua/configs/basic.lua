@@ -7,10 +7,12 @@ vim.cmd [[
 colorscheme melange 
 set clipboard+=unnamedplus
 set number
+set autoread
 ]] 
 
 require("nvim-surround").setup {}
-require("nvim_comment").setup {
+require("nvim_comment").setup { }
+
+require("notify").setup {
+  background_colour = "#000000",
 }
-
-
