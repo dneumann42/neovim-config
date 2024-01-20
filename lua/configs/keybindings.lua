@@ -31,3 +31,6 @@ map('n', '<C-l>', ':wincmd l<cr>')
 map('n', '<C-h>', ':wincmd h<cr>')
 map('n', '<C-j>', ':wincmd j<cr>')
 map('n', '<C-k>', ':wincmd k<cr>')
+
+-- commenting
+map('n', '<c-/>', ':CommentToggle<cr>')

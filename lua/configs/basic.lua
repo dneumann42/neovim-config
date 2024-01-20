@@ -5,7 +5,12 @@ vim.g.maplocalleader = ','
 vim.opt.termguicolors = true
 vim.cmd [[ 
 colorscheme melange 
-
 set clipboard+=unnamedplus
+set number
 ]] 
+
+require("nvim-surround").setup {}
+require("nvim_comment").setup {
+}
+
 

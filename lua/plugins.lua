@@ -1,4 +1,4 @@
--- Thanks to https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua 
+-- Thanks to https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua
 -- for making this so easy
 
 local M = {}
@@ -7,12 +7,12 @@ M.plugins = {
   -- git plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
-  
+
   -- Detect tabstop and shiftwidth
   'tpope/vim-sleuth',
 
   -- autocompletion for vim config
-  { "folke/neodev.nvim", opts = {} },
+  { "folke/neodev.nvim",      opts = {} },
 
   {
     -- LSP Configuration & Plugins
@@ -24,7 +24,7 @@ M.plugins = {
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',       opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -59,7 +59,7 @@ M.plugins = {
 
   -- startup and sessions
   { 'echasnovski/mini.sessions', version = '*' },
-  { 'echasnovski/mini.starter', version = '*' },
+  { 'echasnovski/mini.starter',  version = '*' },
 
   {
     'nvim-telescope/telescope.nvim',
@@ -103,6 +103,7 @@ M.plugins = {
   -- Utility
   { "kylechui/nvim-surround" },
   { "m4xshen/autoclose.nvim" },
+  { "terrortylor/nvim-comment" },
 }
 
 M.bootstrap = function()

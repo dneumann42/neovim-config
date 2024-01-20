@@ -1,3 +1,27 @@
+local settings = require("settings")
+
+local function set_bg_none()
+  vim.cmd [[ hi Normal guibg=NONE ctermbg=NONE ]]
+end
+
+vim.fn.toggle_transparent_background = function()
+  local is_transparent = not settings.is_transparent
+
+  if is_transparent then
+    set_bg_none()
+  else
+    vim.cmd [[ set background=dark ]]
+  end
+
+  settings.is_transparent = is_transparent
+end
+
+if settings.is_transparent then
+  set_bg_none()
+end
+
+vim.cmd [[ command ToggleTransparency lua vim.fn.toggle_transparent_background() ]]
+
 -- Eviline config for lualine
 -- Author: shadmansaleh
 -- Credit: glepnir
