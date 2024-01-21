@@ -2,6 +2,8 @@ local settings = require("settings")
 
 local function set_bg_none()
   vim.cmd [[ hi Normal guibg=NONE ctermbg=NONE ]]
+  vim.cmd [[ hi clear SignColumn ]]
+  vim.cmd [[ hi clear LineNr ]]
 end
 
 vim.fn.set_transparent_background = function(yes)
@@ -28,17 +30,17 @@ end
 
 settings.on_key_change(
   "colorscheme", vim.schedule_wrap(function(_, value)
-  vim.cmd("colorscheme " .. value)
-end))
+    vim.cmd("colorscheme " .. value)
+  end))
 
 settings.on_key_change(
   "is_transparent", vim.schedule_wrap(function(_, value)
-  vim.fn.set_transparent_background(value)
-end))
+    vim.fn.set_transparent_background(value)
+  end))
 
 vim.cmd [[ command! ToggleTransparency lua vim.fn.toggle_transparent_background() ]]
 
-require("colorizer").setup { '*'; }
+require("colorizer").setup { '*', }
 
 -- Eviline config for lualine
 -- Author: shadmansaleh
@@ -118,7 +120,7 @@ ins_left {
   function()
     return '▊'
   end,
-  color = { fg = colors.blue }, -- Sets highlighting of component
+  color = { fg = colors.blue },      -- Sets highlighting of component
   padding = { left = 0, right = 1 }, -- We don't need space before this
 }
 
@@ -214,7 +216,7 @@ ins_left {
 
 -- Add components to right sections
 ins_right {
-  'o:encoding', -- option component same as &encoding in viml
+  'o:encoding',       -- option component same as &encoding in viml
   fmt = string.upper, -- I'm not sure why it's upper case either ;)
   cond = conditions.hide_in_width,
   color = { fg = colors.green, gui = 'bold' },
