@@ -112,7 +112,11 @@ M.plugins = {
   { "rcarriga/nvim-notify" },
 
   -- terminal
-  { "akinsho/toggleterm.nvim" }
+  { "akinsho/toggleterm.nvim" },
+
+  -- lisp
+  { "monkoose/parsley" }, -- utility library required by nvlime
+  { "monkoose/nvlime" },
 }
 
 M.bootstrap = function()

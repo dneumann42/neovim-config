@@ -161,3 +161,10 @@ cmp.setup {
     { name = 'path' },
   },
 }
+
+cmp.setup.filetype({ 'lisp' }, {
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'nvlime' },
+  },
+})
