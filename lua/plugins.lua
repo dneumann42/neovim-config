@@ -92,9 +92,11 @@ M.plugins = {
 
   { "norcalli/nvim-colorizer.lua" },
 
+  -- themes
   { "savq/melange-nvim" },
   { "rebelot/kanagawa.nvim" },
   { "kepano/flexoki" },
+  { "zaldih/themery.nvim" },
 
   -- Discovery and help
   {

@@ -257,3 +257,36 @@ ins_right {
 
 -- Now don't forget to initialize lualine
 lualine.setup(config)
+
+-- Theme switching and preview
+require("themery").setup({
+  themes = {
+    "melange",
+    "blue",
+    "darkblue",
+    "delek",
+    "desert",
+    "elflord",
+    "evening",
+    "habamax",
+    "industry",
+    "kanagawa",
+    "kanagawa-dragon",
+    "kanagawa-lotus",
+    "kanagawa-wave",
+    "koehler",
+    "lunaperche",
+    "morning",
+    "murphy",
+    "pablo",
+    "peachpuff",
+    "quite",
+    "ron",
+    "shine",
+    "slate",
+    "torte",
+    "zellner"
+  },                                                         -- Your list of installed colorschemes
+  themeConfigFile = "~/.config/nvim/lua/settings/theme.lua", -- Described below
+  livePreview = true,                                        -- Apply theme while browsing. Default to true.
+})
