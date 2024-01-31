@@ -30,6 +30,10 @@ local servers = {
   tsserver = {
     filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
     cmd = { "typescript-language-server", "--stdio" }
+  },
+  graphql = {
+    cmd = { "graphql-lsp", "server", "-m", "stream" },
+    filetypes = { "graphql", "typescriptreact", "javascriptreact" }
   }
 }
 

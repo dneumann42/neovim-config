@@ -119,6 +119,9 @@ M.plugins = {
   -- lisp
   { "monkoose/parsley" }, -- utility library required by nvlime
   { "monkoose/nvlime" },
+
+  -- web tech
+  { "jparise/vim-graphql" }
 }
 
 M.bootstrap = function()
