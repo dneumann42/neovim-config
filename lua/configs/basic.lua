@@ -33,6 +33,5 @@ if settings.get("tabs") then
 end
 
 settings.on_key_change("tabs", vim.schedule_wrap(function(_, tabs)
-  vim.print("HERE?")
   set_tab_size(tabs)
 end))

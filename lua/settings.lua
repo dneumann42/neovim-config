@@ -16,9 +16,16 @@ local function file_exists(path)
   return false
 end
 
+local SETTINGS_PATH = 'lua/settings'
+
 local function get_save_path()
   local p = vim.fn.stdpath "config"
-  return fmt("%s/%s", p, "lua/settings/default.lua"), "w"
+  return fmt("%s/%s/%s", p, SETTINGS_PATH, "default.lua"), "w"
+end
+
+local function get_theme_path()
+  local p = vim.fn.stdpath "config"
+  return fmt("%s/%s/%s", p, SETTINGS_PATH, "theme.lua"), "w"
 end
 
 local function save_settings(new_settings)
@@ -100,13 +107,23 @@ add_watcher(get_save_path(), function()
     code = code_file:read("*a")
     code_file:close()
   end
-
   local settings = loadstring(code)()
-
   for k, v in pairs(settings) do
     for _, c in ipairs(M.listeners[k] or {}) do
       c(k, v)
     end
+  end
+end)
+
+add_watcher(get_theme_path(), function()
+  local f = io.open(get_theme_path(), "r")
+  if f then
+    local contents = f:read("*a")
+    local _, _, theme = contents:find('"colorscheme ([%w-_]+)"')
+    if theme and type(theme) == 'string' then
+      vim.settings.set("colorscheme", theme)
+    end
+    f:close()
   end
 end)
 

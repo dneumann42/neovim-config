@@ -7,17 +7,17 @@ local function set_bg_none()
 end
 
 vim.fn.set_transparent_background = function(yes)
-  if yes then
-    set_bg_none()
-  else
-    vim.cmd [[ set background=dark ]]
-  end
+  -- if yes then
+  --   set_bg_none()
+  -- else
+  --   vim.cmd [[ set background=dark ]]
+  -- end
 end
 
 vim.fn.toggle_transparent_background = function()
-  local is_transparent = not settings.get("is_transparent")
-  vim.fn.set_transparent_background(is_transparent)
-  settings.set("is_transparent", is_transparent, true)
+  -- local is_transparent = not settings.get("is_transparent")
+  -- vim.fn.set_transparent_background(is_transparent)
+  -- settings.set("is_transparent", is_transparent, true)
 end
 
 if settings.get("colorscheme") then
@@ -25,7 +25,7 @@ if settings.get("colorscheme") then
 end
 
 if settings.get("is_transparent") then
-  set_bg_none()
+  -- set_bg_none()
 end
 
 settings.on_key_change(
@@ -260,33 +260,7 @@ lualine.setup(config)
 
 -- Theme switching and preview
 require("themery").setup({
-  themes = {
-    "melange",
-    "blue",
-    "darkblue",
-    "delek",
-    "desert",
-    "elflord",
-    "evening",
-    "habamax",
-    "industry",
-    "kanagawa",
-    "kanagawa-dragon",
-    "kanagawa-lotus",
-    "kanagawa-wave",
-    "koehler",
-    "lunaperche",
-    "morning",
-    "murphy",
-    "pablo",
-    "peachpuff",
-    "quite",
-    "ron",
-    "shine",
-    "slate",
-    "torte",
-    "zellner"
-  },                                                         -- Your list of installed colorschemes
+  themes = require("settings/themes"),
   themeConfigFile = "~/.config/nvim/lua/settings/theme.lua", -- Described below
   livePreview = true,                                        -- Apply theme while browsing. Default to true.
 })
