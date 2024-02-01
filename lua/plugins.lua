@@ -121,7 +121,10 @@ M.plugins = {
   { "monkoose/nvlime" },
 
   -- web tech
-  { "jparise/vim-graphql" }
+  { "jparise/vim-graphql" },
+
+  -- my own plugins
+  { "dneumann42/nvim-wikid" }
 }
 
 M.bootstrap = function()
