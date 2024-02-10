@@ -31,7 +31,7 @@ map('n', '<C-j>', ':wincmd j<cr>')
 map('n', '<C-k>', ':wincmd k<cr>')
 
 -- commenting
-map('n', '<c-/>', ':CommentToggle<cr>')
+map('n', '<leader>ll', ':CommentToggle<cr>')
 
 -- tabs
 map('n', '<leader>T', ':tabnew<cr>')
@@ -55,3 +55,26 @@ map('t', '<C-x><space>', "<C-\\>n :FloatermToggle<cr>")
 -- NvimTree
 map('n', '<leader>nf', ':NvimTreeFindFile<cr>')
 map('n', '<leader>e', ':NvimTreeToggle<cr>')
+
+require("base")
+
+local function do_compile(cmd)
+  vim.cmd [[ :ToggleTerm direction="float"<cr> ]]
+  local term = require("toggleterm")
+  term.exec(cmd, vim.v.count)
+end
+
+function _G.compile()
+  local path = vim.loop.cwd() .. '/' .. '.nvim_compile_command'
+  if file_exists(path) then
+    do_compile(read_file(path))
+  else
+    vim.ui.input({ prompt = 'Command: ' }, function(inp)
+      write_file(path, inp)
+      do_compile(inp)
+    end)
+  end
+end
+
+map('n', '<f5>', ':lua compile()<cr>')
+vim.api.nvim_set_keymap('t', '<f5>', [[ <C-\><C-n>:q<cr>:lua compile()<cr> ]], { noremap = true })

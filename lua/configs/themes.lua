@@ -1,46 +1,10 @@
 local settings = require("settings")
 
-local function set_bg_none()
-  vim.cmd [[ hi Normal guibg=NONE ctermbg=NONE ]]
-  vim.cmd [[ hi clear SignColumn ]]
-  vim.cmd [[ hi clear LineNr ]]
-end
-
-vim.fn.set_transparent_background = function(yes)
-  -- if yes then
-  --   set_bg_none()
-  -- else
-  --   vim.cmd [[ set background=dark ]]
-  -- end
-end
-
-vim.fn.toggle_transparent_background = function()
-  -- local is_transparent = not settings.get("is_transparent")
-  -- vim.fn.set_transparent_background(is_transparent)
-  -- settings.set("is_transparent", is_transparent, true)
-end
+require("colorizer").setup { '*', }
 
 if settings.get("colorscheme") then
   vim.cmd("colorscheme " .. settings.get("colorscheme"))
 end
-
-if settings.get("is_transparent") then
-  -- set_bg_none()
-end
-
-settings.on_key_change(
-  "colorscheme", vim.schedule_wrap(function(_, value)
-    vim.cmd("colorscheme " .. value)
-  end))
-
-settings.on_key_change(
-  "is_transparent", vim.schedule_wrap(function(_, value)
-    vim.fn.set_transparent_background(value)
-  end))
-
-vim.cmd [[ command! ToggleTransparency lua vim.fn.toggle_transparent_background() ]]
-
-require("colorizer").setup { '*', }
 
 -- Eviline config for lualine
 -- Author: shadmansaleh
@@ -264,3 +228,73 @@ require("themery").setup({
   themeConfigFile = "~/.config/nvim/lua/settings/theme.lua", -- Described below
   livePreview = true,                                        -- Apply theme while browsing. Default to true.
 })
+
+require("catppuccin").setup {
+  flavour = "mocha", -- latte, frappe, macchiato, mocha
+  -- background = {     -- :h background
+  --   light = "latte",
+  --   dark = "mocha",
+  -- },
+  transparent_background = true, -- disables setting the background color.
+  show_end_of_buffer = false,    -- shows the '~' characters after the end of buffers
+  term_colors = false,           -- sets terminal colors (e.g. `g:terminal_color_0`)
+  dim_inactive = {
+    enabled = false,             -- dims the background color of inactive window
+    shade = "dark",
+    percentage = 0.15,           -- percentage of the shade to apply to the inactive window
+  },
+  no_italic = false,             -- Force no italic
+  no_bold = false,               -- Force no bold
+  no_underline = false,          -- Force no underline
+  styles = {                     -- Handles the styles of general hi groups (see `:h highlight-args`):
+    comments = { "italic" },     -- Change the style of comments
+    conditionals = { "italic" },
+    loops = {},
+    functions = {},
+    keywords = {},
+    strings = {},
+    variables = {},
+    numbers = {},
+    booleans = {},
+    properties = {},
+    types = {},
+    operators = {},
+  },
+  color_overrides = {},
+  custom_highlights = {},
+  highlight_overrides = {
+    mocha = function()
+      return {
+
+      }
+    end
+  },
+  integrations = {
+    cmp = true,
+    gitsigns = true,
+    nvimtree = true,
+    treesitter = true,
+    notify = false,
+    mini = {
+      enabled = true,
+      indentscope_color = "",
+    },
+    telescope = true,
+    which_key = true,
+  },
+}
+
+require("transparent").setup {
+  enabled = true,
+  groups = { -- table: default groups
+    'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
+    'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
+    'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
+    'SignColumn', 'CursorLine', 'CursorLineNr', 'StatusLine', 'StatusLineNC',
+    'EndOfBuffer',
+  },
+  extra_groups = {},   -- table: additional groups that should be cleared
+  exclude_groups = {}, -- table: groups you don't want to clear
+}
+
+vim.cmd [[ TransparentEnable ]]

@@ -23,5 +23,6 @@ return {
   "shine",
   "slate",
   "torte",
-  "zellner"
+  "zellner",
+  "catppuccin"
 }
