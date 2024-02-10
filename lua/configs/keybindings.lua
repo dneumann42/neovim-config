@@ -25,9 +25,6 @@ map('n', '<leader>f', ':Telescope find_files<cr>')
 map('n', '<leader>b', ':Telescope buffers<cr>')
 map('n', '<leader>G', ':Git<cr>')
 
--- explorer
-map('n', '<leader>e', ':NvimTreeToggle<cr>')
-
 map('n', '<C-l>', ':wincmd l<cr>')
 map('n', '<C-h>', ':wincmd h<cr>')
 map('n', '<C-j>', ':wincmd j<cr>')
@@ -54,3 +51,7 @@ map('n', '<C-x>0', ':x<cr>')
 -- floaterm
 map('n', '<C-x><space>', ':FloatermToggle<cr>')
 map('t', '<C-x><space>', "<C-\\>n :FloatermToggle<cr>")
+
+-- NvimTree
+map('n', '<leader>nf', ':NvimTreeFindFile<cr>')
+map('n', '<leader>e', ':NvimTreeToggle<cr>')

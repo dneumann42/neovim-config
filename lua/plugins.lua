@@ -115,6 +115,8 @@ M.plugins = {
 
   -- terminal
   { "akinsho/toggleterm.nvim" },
+  -- terminal image support (requires kitty)
+  { "3rd/image.nvim" },
 
   -- lisp
   { "monkoose/parsley" }, -- utility library required by nvlime
@@ -125,6 +127,7 @@ M.plugins = {
 
   -- my own plugins
   { "dneumann42/nvim-wikid" }
+
 }
 
 M.bootstrap = function()
