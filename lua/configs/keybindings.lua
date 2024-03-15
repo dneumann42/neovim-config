@@ -10,7 +10,6 @@ vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 
 -- disable arrow keys
-
 map('', '<up>', '<nop>')
 map('', '<down>', '<nop>')
 map('', '<left>', '<nop>')
@@ -31,7 +30,9 @@ map('n', '<C-j>', ':wincmd j<cr>')
 map('n', '<C-k>', ':wincmd k<cr>')
 
 -- commenting
-map('n', '<leader>ll', ':CommentToggle<cr>')
+map('n', '<C-_>', ':CommentToggle<cr>')
+map('v', '<C-_>', ':CommentToggle<cr>')
+map('i', '<C-_>', '<esc>:CommentToggle<cr>')
 
 -- tabs
 map('n', '<leader>T', ':tabnew<cr>')
@@ -49,12 +50,13 @@ map('n', '<C-x>3', ':vsplit<cr>')
 map('n', '<C-x>0', ':x<cr>')
 
 -- floaterm
-map('n', '<C-x><space>', ':FloatermToggle<cr>')
-map('t', '<C-x><space>', "<C-\\>n :FloatermToggle<cr>")
+map('n', '<C-x><space><space>', ':WikidDaily<cr>')
 
 -- NvimTree
 map('n', '<leader>nf', ':NvimTreeFindFile<cr>')
 map('n', '<leader>e', ':NvimTreeToggle<cr>')
+
+-- Wikid
 
 require("base")
 
@@ -70,8 +72,10 @@ function _G.compile()
     do_compile(read_file(path))
   else
     vim.ui.input({ prompt = 'Command: ' }, function(inp)
-      write_file(path, inp)
-      do_compile(inp)
+      if inp then
+        write_file(path, inp)
+        do_compile(inp)
+      end
     end)
   end
 end

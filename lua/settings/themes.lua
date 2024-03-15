@@ -18,7 +18,6 @@ return {
   "murphy",
   "pablo",
   "peachpuff",
-  "quite",
   "ron",
   "shine",
   "slate",

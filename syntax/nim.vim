@@ -29,7 +29,7 @@ let b:current_syntax = "nim"
 syntax keyword nimKeywordOperator addr and as distinct div do in is isnot mod
 syntax keyword nimKeywordOperator not notin of or ptr ref shl shr unsafeAddr xor
 syntax keyword nimStatement       asm bind block break cast concept const
-syntax keyword nimStatement       continue defer discard enum let mixin return
+syntax keyword nimStatement       defer enum let mixin
 syntax keyword nimStatement       static type using var yield
 syntax keyword nimStatement       converter func iterator macro method proc
 syntax keyword nimStatement       template
@@ -39,7 +39,7 @@ syntax keyword nimException       except finally raise try
 syntax keyword nimRepeat          for while
 syntax keyword nimConstant        nil
 syntax keyword nimPreCondit       when
-syntax keyword nimInclude         export from import include
+syntax keyword nimInclude         export from import include return continue 
 syntax keyword nimStructure       enum object tuple
 
 syntax keyword nimPreProcStmt     alignof compiles defined sizeof

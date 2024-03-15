@@ -104,6 +104,9 @@ M.plugins = {
   },
   { "xiyaowong/transparent.nvim" },
 
+  -- Improves vim.ui
+  { 'stevearc/dressing.nvim' },
+
   -- Discovery and help
   {
     'nvim-tree/nvim-tree.lua',

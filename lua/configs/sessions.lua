@@ -1,15 +1,15 @@
 require('mini.sessions').setup {
   -- Whether to read latest session if Neovim opened without file arguments
-  autoread = false,
+  autoread = true,
 
   -- Whether to write current session before quitting Neovim
   autowrite = true,
 
   -- Directory where global sessions are stored (use `''` to disable)
-  directory = '', --<"session" subdir of user data directory from |stdpath()|>,
+  directory = vim.fn.stdpath("cache"), --<"session" subdir of user data directory from |stdpath()|>,
 
   -- File for local session (use `''` to disable)
-  file = 'Session.vim',
+  file = 'session.vim',
 
   -- Whether to force possibly harmful actions (meaning depends on function)
   force = { read = false, write = true, delete = false },
