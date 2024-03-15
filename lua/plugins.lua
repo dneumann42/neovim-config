@@ -4,6 +4,14 @@
 local M = {}
 
 M.plugins = {
+  ui = {
+    border = "double",
+    size = {
+      width = 0.8,
+      height = 0.8,
+    },
+  },
+
   -- git plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
@@ -102,7 +110,7 @@ M.plugins = {
     lazy = false,
     name = "catppuccin"
   },
-  { "xiyaowong/transparent.nvim" },
+  -- { "xiyaowong/transparent.nvim" },
 
   -- Improves vim.ui
   { 'stevearc/dressing.nvim' },

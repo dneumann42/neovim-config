@@ -24,7 +24,6 @@ starter.setup {
     starter.gen_hook.adding_bullet(),
     starter.gen_hook.indexing('all', { 'Builtin actions' }),
     starter.gen_hook.padding(3, 2),
-    -- Use this if you set up 'mini.sessions'
     -- starter.sections.sessions(5, true)
   },
 

@@ -30,9 +30,9 @@ map('n', '<C-j>', ':wincmd j<cr>')
 map('n', '<C-k>', ':wincmd k<cr>')
 
 -- commenting
-map('n', '<C-_>', ':CommentToggle<cr>')
-map('v', '<C-_>', ':CommentToggle<cr>')
-map('i', '<C-_>', '<esc>:CommentToggle<cr>')
+map('n', '<C-,>', ':CommentToggle<cr>')
+map('v', '<C-,>', ':CommentToggle<cr>')
+map('i', '<C-,>', '<esc>:CommentToggle<cr>')
 
 -- tabs
 map('n', '<leader>T', ':tabnew<cr>')

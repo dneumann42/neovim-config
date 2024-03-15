@@ -36,7 +36,7 @@ require("gitsigns").setup {
       return '<Ignore>'
     end, { expr = true, desc = 'Jump to previous hunk' })
 
-    -- Actions
+    -- actions
     -- visual mode
     map('v', '<leader>hs', function()
       gs.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }

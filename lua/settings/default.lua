@@ -1,5 +1,5 @@
 return {
   colorscheme = "catppuccin",
-  is_transparent = true,
+  is_transparent = false,
   tabs = 2
 }

@@ -18,23 +18,23 @@ local servers = {
   lua_ls = {
 
   },
-  nim_langserver = {
+  -- nim_langserver = {
 
-  },
-  rust_analyzer = {
+  -- },
+  -- rust_analyzer = {
 
-  },
-  pylsp = {
+  -- },
+  -- pylsp = {
 
-  },
-  tsserver = {
-    filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-    cmd = { "typescript-language-server", "--stdio" }
-  },
-  graphql = {
-    cmd = { "graphql-lsp", "server", "-m", "stream" },
-    filetypes = { "graphql", "typescriptreact", "javascriptreact" }
-  }
+  -- },
+  -- tsserver = {
+  --   filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+  --   cmd = { "typescript-language-server", "--stdio" }
+  -- },
+  -- graphql = {
+  --   cmd = { "graphql-lsp", "server", "-m", "stream" },
+  --   filetypes = { "graphql", "typescriptreact", "javascriptreact" }
+  -- }
 }
 
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
