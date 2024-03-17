@@ -22,3 +22,14 @@ function _G.set_terminal_keymaps()
 end
 
 vim.cmd "autocmd! TermOpen term://* lua set_terminal_keymaps()"
+
+-- show vifm in toggle terminal
+local Terminal = require('toggleterm.terminal').Terminal
+
+local vifm = Terminal:new { cmd = "vifm", hidden = true }
+
+function _G.vifm_toggle()
+  vifm:toggle(40)
+end
+
+vim.api.nvim_set_keymap("n", "<leader>v", "<cmd>lua vifm_toggle()<cr>", { noremap = true, silent = true })

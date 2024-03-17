@@ -298,3 +298,6 @@ require("dressing").setup({
     get_config = nil,
   },
 })
+
+-- Intent
+require("ibl").setup()
