@@ -23,6 +23,7 @@
   "mini.sessions": { "branch": "main", "commit": "f7c499d7f97c863751bf99c6aba3cd47d40d07a6" },
   "mini.starter": { "branch": "main", "commit": "0ee58ac8975a929e90c8b104987fabfd13015e25" },
   "neodev.nvim": { "branch": "main", "commit": "2793ba3127c2c93ee486b9072a3ef129eeb950cc" },
+  "neoformat": { "branch": "master", "commit": "4372abb846f43ec121df40e620682c985ebc8286" },
   "nvim-cmp": { "branch": "main", "commit": "04e0ca376d6abdbfc8b52180f8ea236cbfddf782" },
   "nvim-colorizer.lua": { "branch": "master", "commit": "36c610a9717cc9ec426a07c8e6bf3b3abcb139d6" },
   "nvim-comment": { "branch": "main", "commit": "e9ac16ab056695cad6461173693069ec070d2b23" },

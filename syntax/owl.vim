@@ -6,7 +6,7 @@ set iskeyword=a-z,A-Z,-,*,_,!,@
 
 syntax keyword owlTodos TODO XXX FIXME NOTE
 
-syntax keyword owlKeywords if def fun then else elif end do in case cond of set while and or for when let var iter module struct trait
+syntax keyword owlKeywords if def fun then else elif end do in case cond of set while and or for when let var iter module struct trait use
 syntax keyword owlSpecial #t #f = ~= echo arg yield
 syntax match owlSpecialChar /[(){}\[\]]/
 syntax keyword owlOperator + / - * % ^ @ ! =

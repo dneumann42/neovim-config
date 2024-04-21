@@ -56,6 +56,8 @@ M.plugins = {
     },
   },
 
+  { 'sbdchd/neoformat' },
+
   -- Gutters
   { 'lewis6991/gitsigns.nvim' },
 
