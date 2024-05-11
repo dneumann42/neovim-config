@@ -39,6 +39,8 @@ M.plugins = {
     },
   },
 
+  'mfussenegger/nvim-dap',
+
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',

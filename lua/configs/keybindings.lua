@@ -69,6 +69,11 @@ end
 
 local function read_compile_file_lines()
   local lines = {}
+
+  if not file_exists(compile_path) then
+    write_file(compile_path, "")
+  end
+
   local contents = read_file(compile_path)
   for s in contents:gmatch("[^\r\n]+") do
     table.insert(lines, s)
