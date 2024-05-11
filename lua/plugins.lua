@@ -69,6 +69,8 @@ M.plugins = {
     dependencies = { 'nvim-tree/nvim-web-devicons' },
   },
 
+  "nvim-lua/plenary.nvim",
+
   -- Startup and sessions
   { 'echasnovski/mini.sessions', version = '*' },
   { 'echasnovski/mini.starter',  version = '*' },

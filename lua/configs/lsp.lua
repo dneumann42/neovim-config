@@ -18,6 +18,8 @@ local servers = {
   lua_ls = {
 
   },
+  ocamllsp = {
+  },
   -- nim_langserver = {
 
   -- },
