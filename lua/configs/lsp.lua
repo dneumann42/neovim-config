@@ -14,11 +14,16 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
 
+local omnisharp_bin = "/usr/bin/OmniSharp"
+
 local servers = {
   lua_ls = {
 
   },
   ocamllsp = {
+  },
+  omnisharp = {
+    cmd = { omnisharp_bin, '--languageserver', '--hostPID', tostring(vim.fn.getpid()) },
   },
   -- nim_langserver = {
 
@@ -121,6 +126,7 @@ for _, server_name in ipairs(vim.tbl_keys(servers)) do
     on_attach = on_attach,
     settings = servers[server_name],
     filetypes = (servers[server_name] or {}).filetypes,
+    cmd = servers[server_name].cmd,
   }
 end
 
