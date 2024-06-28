@@ -1,14 +1,10 @@
---[[
-Dustin's Neovim Config
-]]
+-- Dustin Neumann's neovim config, version approx. 9997
 
-vim.cmd [[ 
-autocmd BufNewFile,BufReadPost *.nim,*.nims,*.nimble setfiletype nim 
-]]
+vim.g.mapleader = ','
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
-local plugins = require("plugins")
-plugins.bootstrap()
-require("lazy").setup(plugins.plugins)
-
-vim.settings = require("settings")
-require("configs")
+require("lib.core")
+require("config.general")
+require("bootstrap")
+require("theme")
