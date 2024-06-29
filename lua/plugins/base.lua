@@ -1,14 +1,13 @@
 return {
-	{
-		"folke/which-key.nvim",
-		event = "VeryLazy",
-		init = function()
-			vim.o.timeout = true
-			vim.o.timeoutlen = 300
-		end
-	},
-	{
-		'stevearc/dressing.nvim',
-		opts = {},
-	}
+  {
+    "folke/which-key.nvim",
+    init = function()
+    end
+  },
+  {
+    'stevearc/dressing.nvim',
+    opts = {},
+  },
+  "kylechui/nvim-surround",
+  'm4xshen/autoclose.nvim'
 }

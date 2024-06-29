@@ -30,3 +30,11 @@ vim.opt.backupdir = os.getenv("HOME") .. "/.cache/vim"
 vim.keymap.set('n', '<leader>w', ':w<cr>')
 vim.keymap.set('n', '<leader>q', ':q!<cr>')
 vim.keymap.set('n', '<leader>c', ':noh<cr>')
+
+vim.keymap.set('n', '<C-h>', '<C-w>h')
+vim.keymap.set('n', '<C-j>', '<C-w>j')
+vim.keymap.set('n', '<C-k>', '<C-w>k')
+vim.keymap.set('n', '<C-l>', '<C-w>l')
+
+vim.keymap.set('n', '<C-x>2', ':split<cr>')
+vim.keymap.set('n', '<C-x>3', ':vsplit<cr>')
