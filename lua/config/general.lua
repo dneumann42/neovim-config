@@ -38,3 +38,5 @@ vim.keymap.set('n', '<C-l>', '<C-w>l')
 
 vim.keymap.set('n', '<C-x>2', ':split<cr>')
 vim.keymap.set('n', '<C-x>3', ':vsplit<cr>')
+
+vim.cmd[[au TextYankPost * silent! lua vim.highlight.on_yank()]]

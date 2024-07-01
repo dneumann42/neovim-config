@@ -1,13 +1,27 @@
 return {
   {
     "folke/which-key.nvim",
-    init = function()
+    config = function()
+      require('which-key').setup {}
     end
   },
   {
     'stevearc/dressing.nvim',
     opts = {},
+    config = function()
+      require('dressing').setup {}
+    end
   },
-  "kylechui/nvim-surround",
-  'm4xshen/autoclose.nvim'
+  {
+    "kylechui/nvim-surround",
+    config = function()
+      require('nvim-surround').setup {}
+    end
+  },
+  { 
+    'm4xshen/autoclose.nvim',
+    config = function()
+      require('autoclose').setup {}
+    end
+  }
 }
