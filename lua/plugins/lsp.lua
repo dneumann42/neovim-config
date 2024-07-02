@@ -16,6 +16,7 @@ return {
 	    inoremap <buffer> <M-CR> :lua vim.lsp.buf.code_action()<CR>
 	  ]]
       end)
+
       require('mason').setup({})
       require('mason-lspconfig').setup({
         ensure_installed = {},
@@ -24,6 +25,15 @@ return {
             require('lspconfig')[server_name].setup({})
           end,
         },
+      })
+
+      vim.api.nvim_create_augroup('AutoFormatting', {})
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        pattern = '*.lua',
+        group = 'AutoFormatting',
+        callback = function()
+          vim.lsp.buf.format({ async = false })
+        end,
       })
     end
   },

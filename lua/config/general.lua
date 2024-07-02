@@ -1,9 +1,23 @@
 local tab_size = 2
 
+if vim.g.neovide then
+  vim.o.guifont = "FiraCode Nerd Font Mono:h14"
+  local p = 8
+  vim.g.neovide_padding_top = p
+  vim.g.neovide_padding_bottom = p
+  vim.g.neovide_padding_right = p
+  vim.g.neovide_padding_left = p
+  vim.g.neovide_frame = "none"
+  vim.g.neovide_cursor_animation_length = 0.0
+  vim.g.neovide_cursor_trail_size = 0.8
+  vim.g.neovide_refresh_rate_idle = 1
+  vim.g.neovide_transparency = 0.9
+end
+
 vim.opt.showmatch = true
-vim.opt.shiftwidth = tab_size 
+vim.opt.shiftwidth = tab_size
 vim.opt.tabstop = tab_size
-vim.opt.softtabstop = tab_size 
+vim.opt.softtabstop = tab_size
 vim.opt.expandtab = true
 
 vim.opt.hlsearch = true
@@ -40,4 +54,4 @@ vim.keymap.set('n', '<C-l>', '<C-w>l')
 vim.keymap.set('n', '<C-x>2', ':split<cr>')
 vim.keymap.set('n', '<C-x>3', ':vsplit<cr>')
 
-vim.cmd[[au TextYankPost * silent! lua vim.highlight.on_yank()]]
+vim.cmd [[au TextYankPost * silent! lua vim.highlight.on_yank()]]
