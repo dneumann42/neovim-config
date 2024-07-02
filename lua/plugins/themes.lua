@@ -1,3 +1,8 @@
+vim.cmd [[ 
+set colorcolumn= 
+set laststatus=3
+]]
+
 return {
   "dgox16/oldworld.nvim",
   "mofiqul/dracula.nvim",
@@ -56,5 +61,5 @@ return {
         extensions = {},
       }
     end
-  }
+  },
 }

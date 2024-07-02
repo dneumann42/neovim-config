@@ -10,7 +10,8 @@ return {
           sorter = "case_sensitive",
         },
         view = {
-          width = 40,
+          width = 30,
+          adaptive_size = true
         },
         renderer = {
           group_empty = true,
@@ -24,6 +25,10 @@ return {
 
       local api = require "nvim-tree.api"
       vim.keymap.set('n', '<space>e', api.tree.toggle, {
+        silent = true,
+        desc = "toggle nvim-tree",
+      })
+      vim.keymap.set('n', '<leader>e', api.tree.toggle, {
         silent = true,
         desc = "toggle nvim-tree",
       })

@@ -28,6 +28,7 @@ vim.opt.swapfile = true
 vim.opt.backupdir = os.getenv("HOME") .. "/.cache/vim"
 
 vim.keymap.set('n', '<leader>w', ':w<cr>')
+vim.keymap.set('n', '<leader>Q', ':qa!<cr>')
 vim.keymap.set('n', '<leader>q', ':q!<cr>')
 vim.keymap.set('n', '<leader>c', ':noh<cr>')
 
