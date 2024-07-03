@@ -14,6 +14,7 @@ return {
         vim.cmd [[
 	    nnoremap <buffer> <M-CR> :lua vim.lsp.buf.code_action()<CR>
 	    inoremap <buffer> <M-CR> :lua vim.lsp.buf.code_action()<CR>
+	    inoremap <buffer> <leader>a :lua vim.lsp.buf.code_action()<CR>
 	  ]]
       end)
 

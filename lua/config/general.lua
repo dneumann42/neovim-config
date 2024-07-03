@@ -1,7 +1,7 @@
 local tab_size = 2
 
 if vim.g.neovide then
-  vim.o.guifont = "FiraCode Nerd Font Mono:h14"
+  vim.o.guifont = "FiraCode Nerd Font Mono:h12"
   local p = 8
   vim.g.neovide_padding_top = p
   vim.g.neovide_padding_bottom = p
