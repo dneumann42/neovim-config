@@ -9,9 +9,9 @@ return {
   {
     'stevearc/dressing.nvim',
     opts = {},
-    config = function()
-      require('dressing').setup {}
-    end
+    -- config = function()
+    --   require('dressing').setup {}
+    -- end
   },
   {
     "kylechui/nvim-surround",

@@ -21,6 +21,11 @@ vim.opt.tabstop = tab_size
 vim.opt.softtabstop = tab_size
 vim.opt.expandtab = true
 
+-- custom tab size autocommands
+vim.cmd [[
+autocmd FileType cs setlocal shiftwidth=4 softtabstop=4 expandtab
+]]
+
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.autoindent = true

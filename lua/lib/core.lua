@@ -1,11 +1,11 @@
-function _G.map(mode, shortcut, command)
-  vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
+local M = {}
+
+function M.split_lines(input)
+  local lines = {}
+  for line in input:gmatch("([^\n]*)\n?") do
+    table.insert(lines, line)
+  end
+  return lines
 end
 
-function _G.nmap(shortcut, command)
-  map('n', shortcut, command)
-end
-
-function _G.imap(shortcut, command)
-  map('i', shortcut, command)
-end
+return M
