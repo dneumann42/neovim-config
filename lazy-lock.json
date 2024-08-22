@@ -11,13 +11,14 @@
   "friendly-snippets": { "branch": "main", "commit": "b8fae73a479ae0a1c54f5c98fa687ae8a0addc53" },
   "fzf-lua": { "branch": "main", "commit": "41ea49cfc1b3f0586753bbeb7850474f28dc22cf" },
   "kanagawa.nvim": { "branch": "master", "commit": "c19b9023842697ec92caf72cd3599f7dd7be4456" },
-  "lazy.nvim": { "branch": "main", "commit": "bef521ac89c8d423f9d092e37b58e8af0c099309" },
+  "lazy.nvim": { "branch": "main", "commit": "077102c5bfc578693f12377846d427f49bc50076" },
   "lsp-zero.nvim": { "branch": "v3.x", "commit": "715c72cf28fb624a5a8130f0b84bb9f9c638e15c" },
   "lualine.nvim": { "branch": "master", "commit": "7d131a8d3ba5016229e8a1d08bf8782acea98852" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "2b3d247fce06f53934174f5dfe0362c42d65c00c" },
   "mason.nvim": { "branch": "main", "commit": "c43eeb5614a09dc17c03a7fb49de2e05de203924" },
   "minimal.nvim": { "branch": "main", "commit": "22d837b814d3bd22625640ef63cc73b8507f291d" },
   "neogit": { "branch": "master", "commit": "683f69378bde873ddec7e52e4cd8f4f0bf1dfdd0" },
+  "nim.nvim": { "branch": "master", "commit": "076239e8869e3e9b061b17cbca2cea2df73d5f92" },
   "nvim-cmp": { "branch": "main", "commit": "04e0ca376d6abdbfc8b52180f8ea236cbfddf782" },
   "nvim-lspconfig": { "branch": "master", "commit": "9a6279953c82d01b58825a46ede032ab246a5983" },
   "nvim-surround": { "branch": "main", "commit": "f81bbef3da28bd2a7d5a736575c71f3f953d49f9" },
@@ -30,5 +31,7 @@
   "telescope.nvim": { "branch": "master", "commit": "d90956833d7c27e73c621a61f20b29fdb7122709" },
   "themery.nvim": { "branch": "main", "commit": "1005a58801276d29c4b1e11244cf7631250f9143" },
   "tokyodark.nvim": { "branch": "master", "commit": "14bc1b3e596878a10647af7c82de7736300f3322" },
-  "which-key.nvim": { "branch": "main", "commit": "4433e5ec9a507e5097571ed55c02ea9658fb268a" }
+  "transparent.nvim": { "branch": "main", "commit": "2c78d94448b534c35ca1d88a3bae90b1cd1a3d4d" },
+  "which-key.nvim": { "branch": "main", "commit": "4433e5ec9a507e5097571ed55c02ea9658fb268a" },
+  "zig.vim": { "branch": "master", "commit": "ad75bb5752f3556d8bde5b0e69cb69a98058030e" }
 }

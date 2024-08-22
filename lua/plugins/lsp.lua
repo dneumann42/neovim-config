@@ -1,4 +1,7 @@
 return {
+  'alaviss/nim.nvim',
+  'ziglang/zig.vim',
+
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },
   {
@@ -15,6 +18,7 @@ return {
         lsp_zero.default_keymaps({bufnr = bufnr})
         vim.keymap.set({'n', 'i'}, '<M-CR>', '<cmd>lua vim.lsp.buf.code_action()<CR>', {buffer = bufnr})
         vim.keymap.set('n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', {buffer = bufnr})
+        vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, { buffer = bufnr })
       end)
       
       require('mason').setup({})
@@ -33,6 +37,10 @@ return {
           vim.lsp.buf.format({ async = false })
         end,
       })
+
+      vim.keymap.set({ "n" }, "<leader>F", function()
+          vim.lsp.buf.format({ async = false })
+      end)
     end
   },
   { "rafamadriz/friendly-snippets" },
