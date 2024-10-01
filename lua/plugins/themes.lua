@@ -12,31 +12,6 @@ return {
   "rebelot/kanagawa.nvim",
 
   {
-    "nvim-treesitter/nvim-treesitter",
-    config = function()
-      require("nvim-treesitter.configs").setup {
-        ensure_installed = {
-          "c",
-          "nim",
-          "rust",
-          "scheme",
-          "commonlisp",
-          "lua",
-          "zig",
-          "vim",
-          "vimdoc",
-          "query"
-        },
-      }
-      vim.cmd [[
-      set foldmethod=expr
-      set foldexpr=nvim_treesitter#foldexpr()
-      set nofoldenable
-      ]]
-    end
-  },
-
-  {
     "zaldih/themery.nvim",
     config = function()
       require("themery").setup {
@@ -90,7 +65,7 @@ return {
     end
   },
 
-  { 
+  {
     "xiyaowong/transparent.nvim",
     config = function()
       require("transparent").setup({
@@ -104,7 +79,7 @@ return {
         },
         -- table: additional groups that should be cleared
         extra_groups = {
-          "NormalFloat", -- plugins which have float panel such as Lazy, Mason, LspInfo
+          "NormalFloat",    -- plugins which have float panel such as Lazy, Mason, LspInfo
           "NvimTreeNormal", -- NvimTree
           "TelescopeNormal",
           "TelescopeBorder",

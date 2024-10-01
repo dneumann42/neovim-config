@@ -1,13 +1,23 @@
-local function dashboard(lines)
+function get_theme_colors()
+  local colors = {}
+  for _, hex in pairs(vim.api.nvim_get_hl(0, {})) do
+    vim.print(hex)
+    if hex.fg then
+      table.insert(colors, string.format("#%06x", hex.fg))
+    end
+  end
+  return colors
+end
+
+local function dashboard(logo_lines, lines)
   local max_width = 0
-  for i = 1, #lines do
-    max_width = math.max(#lines[i], max_width)
+  for i = 1, #logo_lines do
+    max_width = math.max(#logo_lines[i], max_width)
   end
-  for _ = 1, 5 do
-    table.insert(lines, 1, "")
+  for _ = 0, 2 do
+    table.insert(logo_lines, 1, "")
   end
-  local start_row = 10
-  local start_col = 10
+  local start_row, start_col = 5, 10
 
   -- Create a new buffer
   local buf = vim.api.nvim_create_buf(false, true)
@@ -15,45 +25,40 @@ local function dashboard(lines)
   vim.cmd [[setlocal nonumber norelativenumber]]
 
   -- Insert wrapped lines
-  for i, line in ipairs(lines) do
+  for i, line in ipairs(logo_lines) do
     local row = start_row + i - 1
     vim.api.nvim_buf_set_lines(buf, row, row + 1, false, { string.rep(" ", start_col) .. line })
   end
 
-  -- Apply gradient colors
-  local ns_id = vim.api.nvim_create_namespace("DashboardGradient")
-  local total_lines = #lines
-  for i = 1, total_lines do
-    local r = math.floor(155 * (1 - (i - 1) / (total_lines - 1)))
-    local g = math.floor(155 * math.sin(math.pi * (i - 1) / (total_lines - 1)))
-    local b = math.min(i * 10, 255)
-    local color = string.format("#%02x%02x%02x", r, g, b)
-
-    -- Create a unique highlight group for each line
-    local hl_group = "DashboardGradient" .. i
-    vim.api.nvim_set_hl(0, hl_group, { fg = color })
-
-    -- Apply the highlight group to the line
-    vim.api.nvim_buf_add_highlight(buf, ns_id, hl_group, start_row + i - 1 - 5, start_col, -1)
+  for i, line in ipairs(lines) do
+    local row = 5 + start_row + i - 1
+    vim.api.nvim_buf_set_lines(buf, row, row + 1, false, { string.rep(" ", start_col) .. line })
   end
 end
 
 -- Example usage
-dashboard {
-  "@@@  @@@  @@@  @@@@@@@@@@     ",
-  "@@@  @@@  @@@  @@@@@@@@@@@    ",
-  "@@!  @@@  @@!  @@! @@! @@!    ",
-  "!@!  @!@  !@!  !@! !@! !@!    ",
-  "@!@  !@!  !!@  @!! !!@ @!@    ",
-  "!@!  !!!  !!!  !@!   ! !@!    ",
-  ":!:  !!:  !!:  !!:     !!:    ",
-  " ::!!:!   :!:  :!:     :!:    ",
-  "  ::::     ::  :::     ::     ",
-  "   :      :     :      :      ",
-  "",
-  "",
-  "",
-  "",
-  "<space>rr    reload session",
-  "<space>ss    save current session",
-}
+local function show_dashboard()
+  dashboard({
+    "███▄▄▄▄      ▄████████  ▄██████▄   ▄█    █▄   ▄█    ▄▄▄▄███▄▄▄▄  ",
+    "███▀▀▀██▄   ███  ║ ███ ███  ║ ███ ███   .███ ███  ▄██▀▀▀███▀▀▀██▄",
+    "███   ███   ███  ╙─█▀  ███  ║ ███ ███  ..███ ███▌ ███ ..███  .███",
+    "███  .███  ▄███▄▄▄     ███  ║ ███ ███ .. ███ ███▌ ███.. ███ ..███",
+    "███ ..███ ▀▀███▀▀▀     ███  ╙─███ ███..╓─███ ███▌ ███.  ███.. ███",
+    "███.. ███   ███  . █▄  ███  . ███ ███. ║ ███ ███  ███   ███.  ███",
+    "███.  ███   ███ ...███ ███ ...███ ███  ║ ███ ███  ███   ███   ███",
+    " ▀█   █▀    ████████▀   ▀██████▀   ▀██████▀  █▀  ..▀█  .███   █▀ ",
+    "               ┬ ..      ┐ ┬         ...┬       ..  | .. ┬    |  ",
+    "",
+    " - Dustin's config",
+    "",
+    "the date is " .. os.date("%D"),
+    string.rep("▂", 40),
+    "",
+    "<space>rr    reload session",
+    "<space>ss    save current session",
+    string.rep("▂", 40),
+    ""
+  }, {})
+end
+
+vim.keymap.set('n', '<space>D', show_dashboard)
