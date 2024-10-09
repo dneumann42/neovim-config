@@ -40,3 +40,4 @@ luac.out
 *.hex
 
 .nvim_compile_command
+themes.md
