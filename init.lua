@@ -9,5 +9,4 @@ require("config.terminal")
 
 require("bootstrap")
 require("commands")
-require("theme")
 require("dashboard")

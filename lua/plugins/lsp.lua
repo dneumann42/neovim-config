@@ -14,7 +14,7 @@ return {
     config = function()
       local lsp_zero = require('lsp-zero')
       lsp_zero.extend_lspconfig()
-      lsp_zero.on_attach(function(client, bufnr)
+      lsp_zero.on_attach(function(_client, bufnr)
         lsp_zero.default_keymaps({ bufnr = bufnr })
         vim.keymap.set({ 'n', 'i' }, '<M-CR>', '<cmd>lua vim.lsp.buf.code_action()<CR>', { buffer = bufnr })
         vim.keymap.set('n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', { buffer = bufnr })
@@ -23,6 +23,8 @@ return {
         local opts = { buffer = bufnr }
 
         vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+        vim.keymap.set("i", "<C-K>", '<cmd>lua vim.diagnostic.open_float()<cr>', opts)
+        vim.keymap.set("n", "<C-K>", '<cmd>lua vim.diagnostic.open_float()<cr>', opts)
         vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
         vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
         vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)

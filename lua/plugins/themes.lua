@@ -10,14 +10,14 @@ return {
   "ntbbloodbath/sweetie.nvim",
   "yazeed1s/minimal.nvim",
   "rebelot/kanagawa.nvim",
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
   {
     "zaldih/themery.nvim",
     config = function()
       require("themery").setup {
-        themes = { "oldworld", "dracula", "tokyodark", "sweetie", "minimal", "kanagawa" },
+        themes = { "oldworld", "dracula", "tokyodark", "sweetie", "minimal", "kanagawa", "catppuccin" },
         livePreview = true,
-        themeConfigFile = os.getenv("HOME") .. "/.config/nvim/lua/theme.lua",
       }
     end
   },
@@ -27,6 +27,15 @@ return {
     color_icons = true,
     default = true,
     strict = true,
+    config = function()
+      require("nvim-tree").setup({
+        update_cwd = true,
+        update_focused_file = {
+          enable = true,
+          update_cwd = true
+        },
+      })
+    end,
   },
 
   {
@@ -90,6 +99,8 @@ return {
         -- Also the user event "TransparentClear" will be triggered
         on_clear = function() end,
       })
+
+      vim.g.transparent_enabled = true
     end
   }
 }
