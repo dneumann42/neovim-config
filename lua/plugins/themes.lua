@@ -10,7 +10,14 @@ return {
   "ntbbloodbath/sweetie.nvim",
   "yazeed1s/minimal.nvim",
   "rebelot/kanagawa.nvim",
+  "NLKNguyen/papercolor-theme",
+
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+
+  {
+    'stevearc/dressing.nvim',
+    opts = {},
+  },
 
   {
     "zaldih/themery.nvim",
@@ -102,5 +109,5 @@ return {
 
       vim.g.transparent_enabled = true
     end
-  }
+  },
 }
