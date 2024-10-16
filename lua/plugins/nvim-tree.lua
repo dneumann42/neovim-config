@@ -34,10 +34,6 @@ return {
         silent = true,
         desc = "toggle nvim-tree",
       })
-      vim.keymap.set('n', '<leader>e', api.tree.toggle, {
-        silent = true,
-        desc = "toggle nvim-tree",
-      })
     end
   }
 }

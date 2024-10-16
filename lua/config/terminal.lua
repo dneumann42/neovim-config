@@ -1,25 +1,12 @@
 local M = {}
 
 function M.toggle_terminal(size)
-  size = size or 15
-  local buffer_number = vim.fn.bufnr("term://")
-  if buffer_number == -1 then
-    vim.cmd("botright split")
-    vim.cmd("terminal")
-    vim.cmd("resize " .. tostring(size))
-    vim.b.terminal_toggle = true
-    vim.cmd("startinsert")
-    return
-  end
-  local term_winnr = vim.fn.bufwinnr(buffer_number)
-  if term_winnr == -1 then
-    vim.cmd("botright split")
-    vim.cmd("buffer " .. buffer_number)
-    vim.cmd("resize 15")
-    vim.cmd("startinsert")
-  else
-    vim.cmd(term_winnr .. "close")
-  end
+  require("lib.ui").toggle_drawer_buffer {
+    name = "term://",
+    command = "terminal",
+    startinsert = true,
+    size = 15,
+  }
 end
 
 vim.api.nvim_set_keymap('n', '<leader>t', ':lua require("config/terminal").toggle_terminal()<CR>',

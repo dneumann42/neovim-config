@@ -64,4 +64,3 @@ vim.cmd [[ au TextYankPost * silent! lua vim.highlight.on_yank() ]]
 
 vim.cmd [[ au BufRead,BufNewFile *.asha set filetype=asha ]]
 vim.cmd [[ au BufRead,BufNewFile *.owl set filetype=owl ]]
--- vim.cmd [[ au BufRead,BufNewFile *.nim, *.nims, *.nimble set filetype=nim ]]
