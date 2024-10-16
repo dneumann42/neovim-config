@@ -1,13 +1,12 @@
 return {
   "nvim-lua/plenary.nvim",
-
   {
     "folke/which-key.nvim",
     config = function()
       require('which-key').setup {}
     end
   },
-
+  'duane9/nvim-rg',
   {
     'notjedi/nvim-rooter.lua',
     config = function()

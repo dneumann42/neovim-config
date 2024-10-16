@@ -61,9 +61,9 @@ local function get_visual_selection()
   return table.concat(lines, "\n")
 end
 
-function M.start_repl(size)
+function M.global_search(size)
   require("lib.ui").toggle_drawer_buffer {
-    name = "interactive://",
+    name = "<global_search>",
     new_buffer = true,
     size = size or 35,
     anchor = "right",
@@ -130,7 +130,7 @@ vim.api.nvim_create_user_command("GetSelection", function()
   local selection = get_visual_selection()
 end, { range = true })
 
-vim.keymap.set('n', '<leader>o', ':lua require("interactive/interactive").start_repl()<CR>',
+vim.keymap.set('n', '<leader>o', ':lua require("interactive/interactive").global_search()<CR>',
   { noremap = true, silent = true })
 
 vim.keymap.set('n', '<space>cf', ':lua require("interactive/interactive").eval_function()<CR>',

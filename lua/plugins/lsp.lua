@@ -1,7 +1,6 @@
 return {
   'alaviss/nim.nvim',
   'ziglang/zig.vim',
-
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },
   {
@@ -79,6 +78,14 @@ return {
       vim.keymap.set({ "n" }, "<leader>F", function()
         vim.lsp.buf.format({ async = true })
       end)
+    end
+  },
+  {
+    "kosayoda/nvim-lightbulb",
+    config = function()
+      require("nvim-lightbulb").setup({
+        autocmd = { enabled = true }
+      })
     end
   },
   { "rafamadriz/friendly-snippets" },

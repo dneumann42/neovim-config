@@ -5,7 +5,7 @@ return {
       require('nvim-surround').setup {}
     end
   },
-
+  'duane9/nvim-rg',
   {
     'm4xshen/autoclose.nvim',
     config = function()

@@ -11,6 +11,8 @@ return {
   "yazeed1s/minimal.nvim",
   "rebelot/kanagawa.nvim",
   "NLKNguyen/papercolor-theme",
+  "rose-pine/neovim",
+  "shaunsingh/nord.nvim",
 
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
@@ -23,7 +25,7 @@ return {
     "zaldih/themery.nvim",
     config = function()
       require("themery").setup {
-        themes = { "oldworld", "dracula", "tokyodark", "sweetie", "minimal", "kanagawa", "catppuccin" },
+        themes = { "nord", "rose-pine", "oldworld", "dracula", "tokyodark", "sweetie", "minimal", "kanagawa", "catppuccin" },
         livePreview = true,
       }
     end
@@ -51,9 +53,8 @@ return {
     config = function()
       require('lualine').setup {
         options = {
-          theme = require("linetheme").theme(),
           component_separators = '',
-          section_separators = { left = '', right = '' },
+          section_separators = { left = '▒', right = '▒' },
         },
         sections = {
           lualine_a = { { 'mode', separator = { left = '▒' }, right_padding = 2 } },
@@ -195,7 +196,7 @@ return {
           -- Options related to the notification window and buffer
           window = {
             normal_hl = "Comment", -- Base highlight group in the notification window
-            winblend = 0,      -- Background color opacity in the notification window
+            winblend = 0,          -- Background color opacity in the notification window
             border = "none",       -- Border around the notification window
             zindex = 45,           -- Stacking priority of the notification window
             max_width = 0,         -- Maximum width of the notification window
