@@ -11,5 +11,7 @@ require("config.restart")
 
 require("interactive.interactive")
 
+require("reloader")
 require("commands")
 require("dashboard")
+require("bindings")

@@ -14,7 +14,32 @@ return {
   "rose-pine/neovim",
   "shaunsingh/nord.nvim",
 
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      require("catppuccin").setup {
+        flavour = "auto",
+        transparent_background = true,
+        show_end_of_buffer = false,
+        term_colors = false,
+        dim_inactive = {
+          enabled = false,   -- dims the background color of inactive window
+          shade = "dark",
+          percentage = 0.15, -- percentage of the shade to apply to the inactive window
+        },
+
+        integrations = {
+          cmp = true,
+          telescope = {
+            enabled = true
+          },
+          which_key = true
+        },
+      }
+    end
+  },
 
   {
     'stevearc/dressing.nvim',
@@ -79,37 +104,6 @@ return {
         tabline = {},
         extensions = {},
       }
-    end
-  },
-
-  {
-    "xiyaowong/transparent.nvim",
-    config = function()
-      require("transparent").setup({
-        -- table: default groups
-        groups = {
-          'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
-          'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
-          'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
-          'SignColumn', 'CursorLine', 'CursorLineNr', 'StatusLine', 'StatusLineNC',
-          'EndOfBuffer',
-        },
-        -- table: additional groups that should be cleared
-        extra_groups = {
-          "NormalFloat",    -- plugins which have float panel such as Lazy, Mason, LspInfo
-          "NvimTreeNormal", -- NvimTree
-          "TelescopeNormal",
-          "TelescopeBorder",
-          "FidgetNormal",
-        },
-        -- table: groups you don't want to clear
-        exclude_groups = {},
-        -- function: code to be executed after highlight groups are cleared
-        -- Also the user event "TransparentClear" will be triggered
-        on_clear = function() end,
-      })
-
-      vim.g.transparent_enabled = true
     end
   },
 

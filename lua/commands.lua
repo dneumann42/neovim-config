@@ -127,9 +127,10 @@ vim.api.nvim_create_user_command("NewCommand", function()
   M.new_and_run_command(path, M.read_commands_file(path) or {})
 end, {})
 
-vim.keymap.set('n', '<F5>', ':RunCommand<cr>')
-vim.keymap.set('n', '<F6>', ':SelectCommand<cr>')
-vim.keymap.set('n', '<F7>', ':NewCommand<cr>')
+local bindings = require('bindings')
+vim.keymap.set('n', bindings.commands.run, ':RunCommand<cr>')
+vim.keymap.set('n', bindings.commands.select, ':SelectCommand<cr>')
+vim.keymap.set('n', bindings.commands.new, ':NewCommand<cr>')
 
 return {
   read = M.read_commands_file,

@@ -38,10 +38,10 @@
   "papercolor-theme": { "branch": "master", "commit": "0cfe64ffb24c21a6101b5f994ca342a74c977aef" },
   "plenary.nvim": { "branch": "master", "commit": "2d9b06177a975543726ce5c73fca176cedbffe9d" },
   "sweetie.nvim": { "branch": "master", "commit": "d4b3d94b57ffcd0229f567e050850248be2b1dad" },
+  "telescope-live-grep-args.nvim": { "branch": "master", "commit": "8ad632f793fd437865f99af5684f78300dac93fb" },
   "telescope.nvim": { "branch": "master", "commit": "df534c3042572fb958586facd02841e10186707c" },
   "themery.nvim": { "branch": "main", "commit": "15c29229e9a25655587462c8c64a62d9aadf0a92" },
   "tokyodark.nvim": { "branch": "master", "commit": "14bc1b3e596878a10647af7c82de7736300f3322" },
-  "transparent.nvim": { "branch": "main", "commit": "8a2749a2fa74f97fe6557f61b89ac7fd873f3c21" },
   "which-key.nvim": { "branch": "main", "commit": "8badb359f7ab8711e2575ef75dfe6fbbd87e4821" },
   "zig.vim": { "branch": "master", "commit": "15d6510b77a4efbb6ffcb151ed7e2ce4de4d06f6" }
 }

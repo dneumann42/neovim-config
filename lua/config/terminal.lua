@@ -9,8 +9,6 @@ function M.toggle_terminal(size)
   }
 end
 
-vim.api.nvim_set_keymap('n', '<leader>t', ':lua require("config/terminal").toggle_terminal()<CR>',
-  { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<SPACE>t', ':lua require("config/terminal").toggle_terminal()<CR>',
   { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-SPACE>', ':lua require("config/terminal").toggle_terminal()<CR>',

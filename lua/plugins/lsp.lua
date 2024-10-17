@@ -15,22 +15,26 @@ return {
       lsp_zero.extend_lspconfig()
       lsp_zero.on_attach(function(_client, bufnr)
         lsp_zero.default_keymaps({ bufnr = bufnr })
-        vim.keymap.set({ 'n', 'i' }, '<M-CR>', '<cmd>lua vim.lsp.buf.code_action()<CR>', { buffer = bufnr })
-        vim.keymap.set('n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', { buffer = bufnr })
-        vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, { buffer = bufnr })
+
+        local bindings = require('bindings')
+        local lsp = bindings.lsp
+
+        vim.keymap.set({ 'n', 'i' }, lsp.code_action, '<cmd>lua vim.lsp.buf.code_action()<CR>', { buffer = bufnr })
+        vim.keymap.set('n', lsp.code_action2, '<cmd>lua vim.lsp.buf.code_action()<CR>', { buffer = bufnr })
+        vim.keymap.set("n", lsp.rename, vim.lsp.buf.rename, { buffer = bufnr })
 
         local opts = { buffer = bufnr }
 
-        vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
-        vim.keymap.set("i", "<C-K>", '<cmd>lua vim.diagnostic.open_float()<cr>', opts)
-        vim.keymap.set("n", "<C-K>", '<cmd>lua vim.diagnostic.open_float()<cr>', opts)
-        vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
-        vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
-        vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
-        vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
-        vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-        vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-        vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
+        vim.keymap.set('n', lsp.hover, "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
+        vim.keymap.set("i", lsp.diagnostics, "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
+        vim.keymap.set("n", lsp.diagnostics, '<cmd>lua vim.diagnostic.open_float()<cr>', opts)
+        vim.keymap.set('n', lsp.definition, '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+        vim.keymap.set('n', lsp.declaration, '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+        vim.keymap.set('n', lsp.implementation, '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+        vim.keymap.set('n', lsp.implementation, '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+        vim.keymap.set('n', lsp.references, '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+        vim.keymap.set('n', lsp.signature_help, '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+        vim.keymap.set('n', lsp.rename2, '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
       end)
 
       require('mason').setup({})

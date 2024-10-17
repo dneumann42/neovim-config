@@ -61,4 +61,5 @@ local function show_dashboard()
   }, {})
 end
 
-vim.keymap.set('n', '<space>D', show_dashboard)
+local bindings = require('bindings')
+vim.keymap.set('n', bindings.dashboard.show, show_dashboard)
