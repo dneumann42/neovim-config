@@ -1,10 +1,8 @@
-local Async = require("plenary.async")
 local Path = require("plenary.path")
-local Job = require("plenary.job")
 local context_manager = require("plenary.context_manager")
 local with, open = context_manager.with, context_manager.open
 local core = require("lib.core")
-local Terminal = require("config.terminal")
+local Terminal = require("lib.terminal")
 
 local M = {}
 
@@ -127,7 +125,7 @@ vim.api.nvim_create_user_command("NewCommand", function()
   M.new_and_run_command(path, M.read_commands_file(path) or {})
 end, {})
 
-local bindings = require('bindings')
+local bindings = require('config.keybindings')
 vim.keymap.set('n', bindings.commands.run, ':RunCommand<cr>')
 vim.keymap.set('n', bindings.commands.select, ':SelectCommand<cr>')
 vim.keymap.set('n', bindings.commands.new, ':NewCommand<cr>')

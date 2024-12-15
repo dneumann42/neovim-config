@@ -1,15 +1,15 @@
 return {
   "NeogitOrg/neogit",
   dependencies = {
-    "nvim-lua/plenary.nvim",  -- required
-    "sindrets/diffview.nvim", -- optional - Diff integration
-
-    -- Only one of these is needed, not both.
-    "nvim-telescope/telescope.nvim", -- optional
-    "ibhagwan/fzf-lua",              -- optional
+    "nvim-lua/plenary.nvim",
+    "sindrets/diffview.nvim",
+    "nvim-telescope/telescope.nvim",
   },
-  config = function()
-    require("neogit").setup {}
-    vim.keymap.set('n', '<leader>G', ":Neogit<cr>", {})
-  end,
+  opts = {},
+  config = function(_, opts)
+    require("neogit").setup(opts)
+    local bindings = require('config.keybindings')
+    vim.keymap.set('n', bindings.git.status, '<cmd>Neogit<cr>')
+    vim.keymap.set('n', bindings.git.commit, '<cmd>Neogit commit<cr>')
+  end
 }

@@ -1,155 +1,158 @@
 return {
-  'alaviss/nim.nvim',
-  'ziglang/zig.vim',
-  { 'williamboman/mason.nvim' },
-  { 'williamboman/mason-lspconfig.nvim' },
   {
-    'VonHeikemen/lsp-zero.nvim',
-    branch = 'v4.x',
-    dependencies = {
-      'neovim/nvim-lspconfig',
-      'hrsh7th/cmp-nvim-lsp',
+    "williamboman/mason.nvim",
+    lazy = false,
+    priority = 53,
+    opts = {
+      ui = {
+        border = "single"
+      },
     },
-    config = function()
-      local lsp_zero = require('lsp-zero')
-      lsp_zero.extend_lspconfig()
-      lsp_zero.on_attach(function(_client, bufnr)
-        lsp_zero.default_keymaps({ bufnr = bufnr })
-
-        local bindings = require('bindings')
-        local lsp = bindings.lsp
-
-        vim.keymap.set({ 'n', 'i' }, lsp.code_action, '<cmd>lua vim.lsp.buf.code_action()<CR>', { buffer = bufnr })
-        vim.keymap.set('n', lsp.code_action2, '<cmd>lua vim.lsp.buf.code_action()<CR>', { buffer = bufnr })
-        vim.keymap.set("n", lsp.rename, vim.lsp.buf.rename, { buffer = bufnr })
-
-        local opts = { buffer = bufnr }
-
-        vim.keymap.set('n', lsp.hover, "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
-        vim.keymap.set("i", lsp.diagnostics, "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
-        vim.keymap.set("n", lsp.diagnostics, '<cmd>lua vim.diagnostic.open_float()<cr>', opts)
-        vim.keymap.set('n', lsp.definition, '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
-        vim.keymap.set('n', lsp.declaration, '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
-        vim.keymap.set('n', lsp.implementation, '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
-        vim.keymap.set('n', lsp.implementation, '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
-        vim.keymap.set('n', lsp.references, '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-        vim.keymap.set('n', lsp.signature_help, '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-        vim.keymap.set('n', lsp.rename2, '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-      end)
-
-      require('mason').setup({})
-      require('mason-lspconfig').setup({
-        ensure_installed = {},
-        handlers = {
-          lsp_zero.default_setup,
-        },
-      })
-
-      local lspconfig = require('lspconfig')
-
-      lspconfig.lua_ls.setup {
-        settings = {
-          Lua = {
-            runtime = {
-              -- Tell the language server which version of Lua you're using
-              version = 'LuaJIT',
-            },
-            diagnostics = {
-              -- Get the language server to recognize the `vim` global
-              globals = { 'vim' },
-            },
-            workspace = {
-              -- Make the server aware of Neovim runtime files
-              library = vim.api.nvim_get_runtime_file("", true),
-            },
-            -- Do not send telemetry data containing a randomized but unique identifier
-            telemetry = {
-              enable = false,
-            },
-          },
-        },
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    lazy = false,
+    priority = 52,
+    opts = {
+      ensure_installed = {
+        "lua_ls"
+      },
+      automatic_installation = {
+        exclude = {}
       }
-
-      vim.api.nvim_create_augroup('AutoFormatting', {})
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        pattern = '*.lua',
-        group = 'AutoFormatting',
-        callback = function()
-          vim.lsp.buf.format({ async = true })
-        end,
-      })
-
-      vim.keymap.set({ "n" }, "<leader>F", function()
-        vim.lsp.buf.format({ async = true })
-      end)
-    end
+    },
   },
   {
-    "kosayoda/nvim-lightbulb",
-    config = function()
-      require("nvim-lightbulb").setup({
-        autocmd = { enabled = true }
-      })
-    end
-  },
-  { "rafamadriz/friendly-snippets" },
-  {
-    "L3MON4D3/LuaSnip",
-    dependencies = { "rafamadriz/friendly-snippets" },
-    config = function()
-      local ls = require("luasnip")
-      require("luasnip.loaders.from_vscode").lazy_load()
-      vim.keymap.set({ "i" }, "<C-K>", function() ls.expand() end, { silent = true })
-      vim.keymap.set({ "i", "s" }, "<C-L>", function() ls.jump(1) end, { silent = true })
-      vim.keymap.set({ "i", "s" }, "<C-J>", function() ls.jump(-1) end, { silent = true })
-      vim.keymap.set({ "i", "s" }, "<C-E>", function()
-        if ls.choice_active() then
-          ls.change_choice(1)
+    "neovim/nvim-lspconfig",
+    dependencies = { 'saghen/blink.cmp' },
+    lazy = false,
+    priority = 51,
+    opts = {
+      servers = {
+        lua_ls = {
+          on_init = function(client)
+            client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+              workspace = {
+                checkThirdParty = false,
+                library = {
+                  vim.env.VIMRUNTIME,
+                  "${3rd}/love2d/library"
+                }
+              }
+            })
+          end,
+          settings = {
+            Lua = {}
+          }
+        }
+      }
+    },
+    config = function(_, opts)
+      local lspconfig = require("lspconfig")
+      for server, config in pairs(opts.servers) do
+        config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
+        lspconfig[server].setup(config)
+      end
+
+      local bindings = require("config.keybindings")
+
+      vim.api.nvim_create_autocmd('LspAttach', {
+        desc = 'LSP Actions',
+        callback = function(event)
+          local o = { buffer = event.buf }
+
+          vim.keymap.set('n', bindings.lsp.hover, '<cmd>lua vim.lsp.buf.hover()<cr>', o)
+          vim.keymap.set('n', bindings.lsp.definition, '<cmd>lua vim.lsp.buf.definition()<cr>', o)
+          vim.keymap.set('n', bindings.lsp.declaration, '<cmd>lua vim.lsp.buf.declaration()<cr>', o)
+          vim.keymap.set('n', bindings.lsp.implementation, '<cmd>lua vim.lsp.buf.implementation()<cr>', o)
+          vim.keymap.set('n', bindings.lsp.type_definition, '<cmd>lua vim.lsp.buf.type_definition()<cr>', o)
+          vim.keymap.set('n', bindings.lsp.references, '<cmd>lua vim.lsp.buf.references()<cr>', o)
+          vim.keymap.set('n', bindings.lsp.signature_help, '<cmd>lua vim.lsp.buf.signature_help()<cr>', o)
+          vim.keymap.set('n', bindings.lsp.rename, '<cmd>lua vim.lsp.buf.rename()<cr>', o)
+          vim.keymap.set('n', bindings.lsp.format, '<cmd>lua vim.lsp.buf.format({async = true})<cr>', o)
+          vim.keymap.set('n', bindings.lsp.code_action, '<cmd>lua vim.lsp.buf.code_action()<cr>', o)
         end
-      end, { silent = true })
+      })
+
+      vim.keymap.set("n", bindings.diagnostic_next, vim.diagnostic.goto_next)
+      vim.keymap.set("n", bindings.diagnostic_prev, vim.diagnostic.goto_prev)
     end
   },
-  { 'neovim/nvim-lspconfig' },
-  { 'hrsh7th/cmp-nvim-lsp' },
-  { 'hrsh7th/cmp-nvim-lsp-signature-help' },
   {
-    'hrsh7th/nvim-cmp',
-    dependencies = {
-      "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip",
-      "hrsh7th/cmp-nvim-lua",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
-    },
-    config = function()
-      local cmp = require("cmp")
-      local luasnip = require("luasnip")
+    'saghen/blink.cmp',
+    lazy = false,
+    dependencies = 'rafamadriz/friendly-snippets',
+    version = 'v0.*',
+    opts = {
+      keymap = {
+        preset = 'default',
+        ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+        ['<C-e>'] = { 'hide', 'fallback' },
 
-      cmp.setup {
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end
+        ['<Tab>'] = {
+          function(cmp)
+            if cmp.snippet_active() then
+              return cmp.accept()
+            else
+              return cmp.select_and_accept()
+            end
+          end,
+          'snippet_forward',
+          'fallback'
         },
-        window = {
-          documentation = cmp.config.window.bordered(),
-          completion = cmp.config.window.bordered(),
-        },
-        mapping = cmp.mapping.preset.insert {
-          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<C-e>'] = cmp.mapping.abort(),
-          ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        },
-        sources = cmp.config.sources({
-          { name = 'nvim_lsp' },
-          { name = 'nvim_lsp_signature_help' },
-          { name = 'luasnip' },
-        }, {
-          { name = 'buffer' },
-        })
+        ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+
+        ['<Up>'] = { 'select_prev', 'fallback' },
+        ['<Down>'] = { 'select_next', 'fallback' },
+        ['<C-p>'] = { 'select_prev', 'fallback' },
+        ['<C-n>'] = { 'select_next', 'fallback' },
+
+        ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
+        ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
+      },
+      appearance = {
+        -- Sets the fallback highlight groups to nvim-cmp's highlight groups
+        -- Useful for when your theme doesn't support blink.cmp
+        -- will be removed in a future release
+        use_nvim_cmp_as_default = true,
+        nerd_font_variant = 'mono'
+      },
+
+      sources = {
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        -- disable cmdline completions
+        cmdline = {},
+      },
+
+      -- Enables keymaps, completions and signature help when true
+      enabled = function() return vim.bo.buftype ~= "prompt" end,
+
+      snippets = {
+        -- Function to use when expanding LSP provided snippets
+        expand = function(snippet) vim.snippet.expand(snippet) end,
+        -- Function to use when checking if a snippet is active
+        active = function(filter) return vim.snippet.active(filter) end,
+        -- Function to use when jumping between tab stops in a snippet, where direction can be negative or positive
+        jump = function(direction) vim.snippet.jump(direction) end,
+      },
+
+      completion = {
+        menu = {
+          enabled = true,
+          min_width = 15,
+          max_height = 10,
+          border = 'single',
+          winblend = 0,
+          winhighlight =
+          'Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None',
+        }
       }
+
+      -- signature = { enabled = true }
+    },
+    opts_extend = { "sources.default" },
+    init = function()
+      vim.cmd [[ hi Pmenu ctermbg=NONE guibg=NONE ]]
     end
   }
 }

@@ -1,19 +1,6 @@
-local tab_size = 2
+vim.cmd.colorscheme("catppuccin")
 
-if vim.g.neovide then
-  vim.o.guifont = "FiraCode Nerd Font Mono:h12"
-  local p = 8
-  vim.g.neovide_padding_top = p
-  vim.g.neovide_padding_bottom = p
-  vim.g.neovide_padding_right = p
-  vim.g.neovide_padding_left = p
-  vim.g.neovide_frame = "none"
-  vim.g.neovide_cursor_animation_length = 0.0
-  vim.g.neovide_cursor_trail_size = 0.8
-  vim.g.neovide_refresh_rate_idle = 1
-  vim.g.neovide_transparency = 0.9
-  vim.g.neovide_scroll_animation_length = 0.1
-end
+local tab_size = 2
 
 vim.opt.showmatch = true
 vim.opt.shiftwidth = tab_size
@@ -31,10 +18,6 @@ vim.opt.incsearch = true
 vim.opt.autoindent = true
 vim.opt.number = true
 vim.opt.wildmode = "longest,list"
-vim.opt.cc = "120"
-
-vim.g.mouse = "v"
-vim.g.mapleader = ","
 
 vim.cmd [[ filetype plugin indent on ]]
 vim.cmd [[ filetype plugin on ]]
@@ -47,7 +30,7 @@ vim.opt.ttyfast = true
 vim.opt.swapfile = true
 vim.opt.backupdir = os.getenv("HOME") .. "/.cache/vim"
 
-local bindings = require("bindings")
+local bindings = require('config.keybindings')
 vim.keymap.set('n', bindings.write, ':w<cr>')
 vim.keymap.set('n', bindings.quit_all, ':qa!<cr>')
 vim.keymap.set('n', bindings.quit, ':q!<cr>')
@@ -66,7 +49,6 @@ vim.cmd [[ au TextYankPost * silent! lua vim.highlight.on_yank() ]]
 vim.cmd [[ au BufRead,BufNewFile *.asha set filetype=asha ]]
 vim.cmd [[ au BufRead,BufNewFile *.owl set filetype=owl ]]
 
--- tabs
 vim.keymap.set('n', bindings.tab.new, ':tabnew<cr>')
 vim.keymap.set('n', bindings.tab.next, ':tabnext<cr>')
 vim.keymap.set('n', bindings.tab.prev, ':tabprevious<cr>')

@@ -5,19 +5,18 @@ function M.toggle_terminal(size)
     name = "term://",
     command = "terminal",
     startinsert = true,
-    size = 15,
+    size = size or 15,
   }
 end
 
-vim.api.nvim_set_keymap('n', '<SPACE>t', ':lua require("config/terminal").toggle_terminal()<CR>',
+vim.api.nvim_set_keymap('n', '<SPACE>t', ':lua require("lib.terminal").toggle_terminal()<CR>',
   { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<C-SPACE>', ':lua require("config/terminal").toggle_terminal()<CR>',
+vim.api.nvim_set_keymap('n', '<C-SPACE>', ':lua require("lib.terminal").toggle_terminal()<CR>',
   { noremap = true, silent = true })
-vim.api.nvim_set_keymap('t', '<C-SPACE>', '<C-\\><C-n>:lua require("config/terminal").toggle_terminal()<CR>',
+vim.api.nvim_set_keymap('t', '<C-SPACE>', '<C-\\><C-n>:lua require("lib.terminal").toggle_terminal()<CR>',
   { noremap = true, silent = true })
 vim.api.nvim_set_keymap('t', '<C-\\><C-q>', '<C-\\><C-n>:q<cr>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('t', '<C-\\>q', '<C-\\><C-n>:q<cr>', { noremap = true, silent = true })
-
 vim.api.nvim_set_keymap('n', '<C-\\><C-q>', '<C-\\><C-n>:q<cr>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-\\>q', '<C-\\><C-n>:q<cr>', { noremap = true, silent = true })
 
