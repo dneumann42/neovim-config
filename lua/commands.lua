@@ -34,6 +34,9 @@ end
 
 function M.new_command(commands, on_new)
   vim.ui.input({ prompt = "command" }, function(cmd)
+    if not cmd then
+      return
+    end
     table.insert(commands, 1, cmd)
     if on_new then
       on_new(commands)
@@ -129,6 +132,10 @@ local bindings = require('config.keybindings')
 vim.keymap.set('n', bindings.commands.run, ':RunCommand<cr>')
 vim.keymap.set('n', bindings.commands.select, ':SelectCommand<cr>')
 vim.keymap.set('n', bindings.commands.new, ':NewCommand<cr>')
+
+vim.keymap.set('t', bindings.commands.run, ':RunCommand<cr>')
+vim.keymap.set('t', bindings.commands.select, ':SelectCommand<cr>')
+vim.keymap.set('t', bindings.commands.new, ':NewCommand<cr>')
 
 return {
   read = M.read_commands_file,
