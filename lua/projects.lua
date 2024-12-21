@@ -105,6 +105,9 @@ function M.open_project()
     end
     local project_path = get_project_parts(lines[idx])[2]
     vim.api.nvim_set_current_dir(project_path)
+
+    local builtin = require('telescope.builtin')
+    builtin.find_files()
   end)
 end
 

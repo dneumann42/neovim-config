@@ -15,7 +15,7 @@ return {
     priority = 52,
     opts = {
       ensure_installed = {
-        "lua_ls"
+        "lua_ls",
       },
       automatic_installation = {
         exclude = {}
@@ -44,6 +44,8 @@ return {
           settings = {
             Lua = {}
           }
+        },
+        nim_langserver = {
         }
       }
     },
@@ -71,6 +73,7 @@ return {
           vim.keymap.set('n', bindings.lsp.rename, '<cmd>lua vim.lsp.buf.rename()<cr>', o)
           vim.keymap.set('n', bindings.lsp.format, '<cmd>lua vim.lsp.buf.format({async = true})<cr>', o)
           vim.keymap.set('n', bindings.lsp.code_action, '<cmd>lua vim.lsp.buf.code_action()<cr>', o)
+          vim.keymap.set("n", bindings.lsp.diagnostics, vim.diagnostic.open_float)
         end
       })
 
