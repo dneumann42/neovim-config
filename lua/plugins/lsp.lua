@@ -1,3 +1,30 @@
+local border = {
+  { '┌', 'FloatBorder' },
+  { '─', 'FloatBorder' },
+  { '┐', 'FloatBorder' },
+  { '│', 'FloatBorder' },
+  { '┘', 'FloatBorder' },
+  { '─', 'FloatBorder' },
+  { '└', 'FloatBorder' },
+  { '│', 'FloatBorder' },
+}
+
+local handlers = {
+  ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+    border = border,
+  }),
+  ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+    border = border
+  }),
+}
+
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = '',
+  },
+  float = { border = 'single' },
+})
+
 return {
   {
     "williamboman/mason.nvim",
@@ -30,6 +57,7 @@ return {
     opts = {
       servers = {
         lua_ls = {
+          handlers = handlers,
           on_init = function(client)
             client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
               workspace = {
@@ -46,6 +74,10 @@ return {
           }
         },
         nim_langserver = {
+          handlers = handlers,
+        },
+        zls = {
+          handlers = handlers,
         }
       }
     },
@@ -85,7 +117,7 @@ return {
     'saghen/blink.cmp',
     lazy = false,
     dependencies = 'rafamadriz/friendly-snippets',
-    version = 'v0.*',
+    version = 'v0.8.1',
     opts = {
       keymap = {
         preset = 'default',
@@ -123,8 +155,6 @@ return {
 
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer' },
-        -- disable cmdline completions
-        cmdline = {},
       },
 
       -- Enables keymaps, completions and signature help when true

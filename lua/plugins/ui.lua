@@ -92,7 +92,13 @@ return {
   },
   {
     "j-hui/fidget.nvim",
-    opts = {}
+    opts = {
+      notification = {
+        window = {
+          winblend = 0,
+        }
+      }
+    }
   },
   {
     'nvim-telescope/telescope.nvim',
@@ -144,5 +150,17 @@ return {
       vim.keymap.set('n', bindings.telescope.find_files2, builtin.find_files, {})
       vim.keymap.set('n', bindings.telescope.buffers2, builtin.buffers, {})
     end
+  },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts = {
+      scope = {
+        enabled = false
+      },
+      indent = {
+        char = '▏'
+      }
+    },
   }
 }

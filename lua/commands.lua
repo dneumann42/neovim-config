@@ -26,7 +26,7 @@ end
 
 function M.select_command(commands, on_select)
   vim.ui.select(commands, { prompt = "Select command" }, function(contents, idx)
-    if on_select then
+    if on_select and contents and idx then
       on_select(contents, idx)
     end
   end)
@@ -106,10 +106,9 @@ function M.run(select)
   if select then
     M.select_command(commands, function(cmd, idx)
       table.remove(commands, idx)
-      M.run_command(cmd)
       table.insert(commands, cmd)
       M.write_commands_file(full_path, commands)
-      M.run_command(commands[1] or "")
+      M.run_command(commands[1])
     end)
     return
   end
@@ -133,9 +132,9 @@ vim.keymap.set('n', bindings.commands.run, ':RunCommand<cr>')
 vim.keymap.set('n', bindings.commands.select, ':SelectCommand<cr>')
 vim.keymap.set('n', bindings.commands.new, ':NewCommand<cr>')
 
-vim.keymap.set('t', bindings.commands.run, ':RunCommand<cr>')
-vim.keymap.set('t', bindings.commands.select, ':SelectCommand<cr>')
-vim.keymap.set('t', bindings.commands.new, ':NewCommand<cr>')
+vim.keymap.set('t', bindings.commands.run, '<C-\\><C-n>:RunCommand<cr>i')
+vim.keymap.set('t', bindings.commands.select, '<C-\\><C-n>:SelectCommand<cr>i')
+vim.keymap.set('t', bindings.commands.new, '<C-\\><C-n>:NewCommand<cr>i')
 
 return {
   read = M.read_commands_file,

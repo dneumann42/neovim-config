@@ -43,6 +43,7 @@ vim.keymap.set('n', '<C-l>', '<C-w>l')
 
 vim.keymap.set('n', bindings.split.horizontal, ':split<cr>')
 vim.keymap.set('n', bindings.split.vertical, ':vsplit<cr>')
+vim.keymap.set('n', '<C-x>1', ':on<cr>')
 
 vim.cmd [[ au TextYankPost * silent! lua vim.highlight.on_yank() ]]
 
@@ -54,20 +55,3 @@ vim.keymap.set('n', bindings.tab.next, ':tabnext<cr>')
 vim.keymap.set('n', bindings.tab.prev, ':tabprevious<cr>')
 vim.keymap.set('n', bindings.tab.close, ':tabclose<cr>')
 
-local function clear_background_color()
-  vim.cmd "highlight Normal guibg=none"
-  vim.cmd "highlight NonText guibg=none"
-  vim.cmd "highlight Normal ctermbg=none"
-  vim.cmd "highlight NonText ctermbg=none"
-  vim.cmd "highlight LineNr ctermbg=none"
-  vim.cmd "highlight LineNr guibg=none"
-  vim.cmd "highlight TelescopeBorder ctermbg=none"
-  vim.cmd "highlight FloatBorder ctermbg=none"
-  vim.cmd "highlight TelescopeBorder guibg=none"
-  vim.cmd "highlight FloatBorder guibg=none"
-  vim.cmd "highlight SignColumn guibg=none"
-  vim.cmd "highlight SignColumn ctermbg=none"
-end
-
-vim.api.nvim_create_user_command("ClearBackgroundColor", clear_background_color, {})
-vim.api.nvim_create_autocmd('ColorScheme', { callback = clear_background_color })

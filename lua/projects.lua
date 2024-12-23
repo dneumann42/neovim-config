@@ -12,12 +12,6 @@ local function get_git_root()
   return vim.fn.fnamemodify(dot_git_path, ":h")
 end
 
---[[
-vim.api.nvim_create_user_command("CdGitRoot", function()
-    vim.api.nvim_set_current_dir(get_git_root())
-end, {})
---]]
-
 local function get_pfile_path()
   local path = vim.fs.joinpath(tostring(vim.fn.stdpath("config")), projects_filename)
   return Path:new(path)
