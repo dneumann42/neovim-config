@@ -31,6 +31,7 @@ function M.toggle_drawer_buffer(opts)
     end
     return
   end
+
   local window_number = vim.fn.bufwinnr(buffer_number)
   if window_number == -1 then
     vim.cmd("botright " .. split)

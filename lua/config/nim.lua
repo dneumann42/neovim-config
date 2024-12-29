@@ -1,0 +1,13 @@
+-- if vim.fn.executable("nph") == 1 then
+--   local autocmd_group = vim.api.nvim_create_augroup("Custom auto-commands", { clear = true })
+--
+--   vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+--     pattern = { "*.nim" },
+--     desc = "Auto-format for Nim",
+--     callback = function()
+--       local filename = vim.api.nvim_buf_get_name(0)
+--       vim.cmd(":silent !nph " .. filename)
+--     end,
+--     group = autocmd_group
+--   })
+-- end

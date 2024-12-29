@@ -73,11 +73,15 @@ return {
             Lua = {}
           }
         },
+        emmet_language_server = {},
         nim_langserver = {
           handlers = handlers,
         },
         zls = {
           handlers = handlers,
+        },
+        ts_ls = {
+          handlers = handlers
         }
       }
     },
@@ -187,5 +191,12 @@ return {
     init = function()
       vim.cmd [[ hi Pmenu ctermbg=NONE guibg=NONE ]]
     end
-  }
+  },
+
+  {
+    "olrtg/nvim-emmet",
+    config = function()
+      vim.keymap.set({ "n", "v" }, '<leader>xe', require('nvim-emmet').wrap_with_abbreviation)
+    end,
+  },
 }

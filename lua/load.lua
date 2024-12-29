@@ -6,5 +6,6 @@ vim.g.loaded_netrwPlugin = 1
 require("config.lazy")
 require("config.core")
 require("config.statusline")
+require("config.nim")
 require("commands")
 require("projects")

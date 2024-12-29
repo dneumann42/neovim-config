@@ -49,9 +49,12 @@ vim.cmd [[ au TextYankPost * silent! lua vim.highlight.on_yank() ]]
 
 vim.cmd [[ au BufRead,BufNewFile *.asha set filetype=asha ]]
 vim.cmd [[ au BufRead,BufNewFile *.owl set filetype=owl ]]
+vim.cmd [[ au BufRead,BufNewFile vifmrc set filetype=vim ]]
 
 vim.keymap.set('n', bindings.tab.new, ':tabnew<cr>')
 vim.keymap.set('n', bindings.tab.next, ':tabnext<cr>')
 vim.keymap.set('n', bindings.tab.prev, ':tabprevious<cr>')
 vim.keymap.set('n', bindings.tab.close, ':tabclose<cr>')
 
+-- make script executable and reload
+vim.api.nvim_create_user_command("Executable", ":!chmod +x %", {})
