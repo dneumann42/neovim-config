@@ -3,8 +3,8 @@ if exists("b:current_syntax")
 endif
 
 " Keywords
-syntax keyword owlKeywords if else for while fun fn return elif then end do cond of def record module export
-syntax keyword owlSpecial var def
+syntax keyword owlKeywords if else for while fun fn return elif then end do cond of def record module export in use
+syntax keyword owlSpecial var def not eq noteq range
 " Add more keywords as needed
 
 " Operators
@@ -30,7 +30,7 @@ syntax region owlComment start="/\*" end="\*/"
 syntax match owlFunction "\v<\w+>\ze\s*\("
 
 " Constants
-syntax keyword owlConstant true false null
+syntax keyword owlConstant true false nothing
 " Add more constants as needed
 
 syntax match owlIdentifier "\v<\w+(-\w+)*>"

@@ -17,6 +17,8 @@ vim.api.nvim_set_keymap('t', '<C-SPACE>', '<C-\\><C-n>:lua require("lib.terminal
   { noremap = true, silent = true })
 vim.api.nvim_set_keymap('t', '<C-\\><C-q>', '<C-\\><C-n>:q<cr>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('t', '<C-\\>q', '<C-\\><C-n>:q<cr>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('t', '<M-CR>', '', { noremap = true, silent = true })
+
 vim.api.nvim_set_keymap('n', '<C-\\><C-q>', '<C-\\><C-n>:q<cr>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-\\>q', '<C-\\><C-n>:q<cr>', { noremap = true, silent = true })
 

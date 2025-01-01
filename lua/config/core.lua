@@ -58,3 +58,12 @@ vim.keymap.set('n', bindings.tab.close, ':tabclose<cr>')
 
 -- make script executable and reload
 vim.api.nvim_create_user_command("Executable", ":!chmod +x %", {})
+
+local function wrap_lines_in_quotes(args)
+  for line = args.line1, args.line2 do
+    local content = vim.fn.getline(line)
+    vim.fn.setline(line, '"' .. content .. '"')
+  end
+end
+
+vim.api.nvim_create_user_command("QuoteLines", wrap_lines_in_quotes, { nargs = 0, range = true })
