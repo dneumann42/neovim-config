@@ -5,6 +5,7 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
+    lazy = false,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
@@ -16,6 +17,19 @@ return {
       window = {
         position = "left",
         width = 40,
+        mappings = {
+          ["P"] = {
+            "toggle_preview",
+            config = {
+              use_float = true,
+              use_image_nvim = false
+            }
+          }
+        }
+      },
+      filesystem = {
+        -- I manually handle this behavior
+        hijack_netrw_behavior = "disabled"
       },
       default_component_configs = {
         diagnostics = {
@@ -88,6 +102,17 @@ return {
       end
 
       vim.keymap.set('n', '<C-w>H', wincmd_H)
+
+      vim.api.nvim_create_autocmd("BufEnter", {
+        group = vim.api.nvim_create_augroup("Neotree_start_directory", { clear = true }),
+        desc = "Start Neo-tree with directory",
+        once = true,
+        callback = function()
+          if vim.fn.isdirectory(vim.fn.argv(0)) == 1 then
+            vim.cmd [[ Neotree position=current ]]
+          end
+        end,
+      })
     end,
   },
   {
