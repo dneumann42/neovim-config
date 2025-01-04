@@ -1,12 +1,27 @@
 local M = {}
 
+local UI = require("lib.ui")
+
+local buffer_number = -1
+
 function M.toggle_terminal(size)
-  require("lib.ui").toggle_drawer_buffer {
-    name = "term://",
-    command = "terminal",
-    startinsert = true,
-    size = size or 15,
-  }
+  if buffer_number == -1 then
+    UI.toggle_drawer_buffer {
+      name = "term://",
+      command = "terminal",
+      startinsert = true,
+      size = size or 15,
+      on_new_buffer = function(buf)
+        buffer_number = buf
+        vim.print({ buf })
+      end
+    }
+  else
+    UI.toggle_drawer_buffer_number({
+      startinsert = true,
+      size = size or 15,
+    }, buffer_number)
+  end
 end
 
 vim.api.nvim_set_keymap('n', '<SPACE>t', ':lua require("lib.terminal").toggle_terminal()<CR>',

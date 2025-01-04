@@ -30,6 +30,9 @@ vim.opt.ttyfast = true
 vim.opt.swapfile = true
 vim.opt.backupdir = os.getenv("HOME") .. "/.cache/vim"
 
+-- keeps the sign column visible so it doesn't jump around
+vim.cmd [[ set scl=yes ]]
+
 local bindings = require('config.keybindings')
 vim.keymap.set('n', bindings.write, ':w<cr>')
 vim.keymap.set('n', bindings.quit_all, ':qa!<cr>')

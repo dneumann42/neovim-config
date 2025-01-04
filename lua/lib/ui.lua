@@ -1,16 +1,34 @@
 local M = {}
 
+function M.toggle_drawer_buffer_number(opts, buffer_number)
+  local split = opts.anchor == "right" and "vsplit " or "split "
+  local resize = opts.anchor == "right" and "vertical resize " or "resize "
+  local window_number = vim.fn.bufwinnr(buffer_number)
+  if window_number == -1 then
+    vim.cmd("botright " .. split)
+    vim.cmd("buffer " .. buffer_number)
+    vim.cmd(resize .. opts.size)
+    if opts.startinsert then
+      vim.cmd("startinsert")
+    end
+  else
+    vim.cmd(window_number .. "close")
+  end
+end
+
 function M.toggle_drawer_buffer(opts)
   opts = opts or {}
   opts.anchor = opts.anchor or "bottom"
   opts.size = opts.size or 25
   opts.startinsert = opts.startinsert or false
+
   assert(opts.name, "buffer name is required")
 
   local split = opts.anchor == "right" and "vsplit " or "split "
   local resize = opts.anchor == "right" and "vertical resize " or "resize "
 
   local buffer_number = vim.fn.bufnr(opts.name)
+
   if buffer_number == -1 then
     vim.cmd("botright " .. split .. (opts.new_buffer and opts.name or ""))
     if opts.command then
@@ -27,22 +45,12 @@ function M.toggle_drawer_buffer(opts)
       vim.opt_local.readonly = true
     end
     if opts.on_new_buffer then
-      opts.on_new_buffer(buffer_number)
+      opts.on_new_buffer(vim.fn.bufnr(opts.name))
     end
     return
   end
 
-  local window_number = vim.fn.bufwinnr(buffer_number)
-  if window_number == -1 then
-    vim.cmd("botright " .. split)
-    vim.cmd("buffer " .. buffer_number)
-    vim.cmd(resize .. opts.size)
-    if opts.startinsert then
-      vim.cmd("startinsert")
-    end
-  else
-    vim.cmd(window_number .. "close")
-  end
+  M.toggle_drawer_buffer_number(opts, buffer_number)
 end
 
 return M

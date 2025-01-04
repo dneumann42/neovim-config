@@ -199,4 +199,17 @@ return {
       vim.keymap.set({ "n", "v" }, '<leader>xe', require('nvim-emmet').wrap_with_abbreviation)
     end,
   },
+
+  {
+    'nvim-treesitter/nvim-treesitter',
+    config = function()
+      require("nvim-treesitter.configs").setup {
+        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "tsx" },
+        auto_install = true,
+        highlight = {
+          enable = true,
+        }
+      }
+    end,
+  }
 }
