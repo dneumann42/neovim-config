@@ -82,6 +82,9 @@ return {
         },
         ts_ls = {
           handlers = handlers
+        },
+        kotlin_language_server = {
+          handlers = handlers
         }
       }
     },
