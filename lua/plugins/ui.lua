@@ -108,7 +108,12 @@ return {
         desc = "Start Neo-tree with directory",
         once = true,
         callback = function()
-          if vim.fn.isdirectory(vim.fn.argv(0)) == 1 then
+          local arg0 = vim.fn.argv(0)
+          if vim.fn.isdirectory(arg0) == 1 then
+            if type(arg0) == "string" then
+              vim.fn.chdir(arg0)
+            end
+
             vim.cmd [[ Neotree position=current ]]
           end
         end,
