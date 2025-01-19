@@ -73,7 +73,6 @@ return {
             Lua = {}
           }
         },
-        emmet_language_server = {},
         nim_langserver = {
           handlers = handlers,
         },
