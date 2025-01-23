@@ -84,7 +84,13 @@ return {
         },
         kotlin_language_server = {
           handlers = handlers
-        }
+        },
+        svelte = {
+          handlers = handlers,
+        },
+        clangd = {
+          handlers = handlers,
+        },
       }
     },
     config = function(_, opts)
