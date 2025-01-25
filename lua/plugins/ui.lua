@@ -1,7 +1,9 @@
 return {
   "nvim-tree/nvim-web-devicons",
   "MunifTanjim/nui.nvim",
+
   { 'stevearc/dressing.nvim', opts = {}, },
+
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
@@ -120,6 +122,7 @@ return {
       })
     end,
   },
+
   {
     "j-hui/fidget.nvim",
     opts = {
@@ -130,6 +133,7 @@ return {
       }
     }
   },
+
   {
     'nvim-telescope/telescope.nvim',
     dependencies = {
@@ -181,6 +185,7 @@ return {
       vim.keymap.set('n', bindings.telescope.buffers2, builtin.buffers, {})
     end
   },
+
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
@@ -193,6 +198,7 @@ return {
       }
     },
   },
+
   {
     "chentoast/marks.nvim",
     event = "VeryLazy",

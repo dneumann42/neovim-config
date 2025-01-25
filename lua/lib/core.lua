@@ -15,7 +15,7 @@ local function get_download_command(out)
   if vim.fn.executable('wget') == 1 then
     return "wget '{}' -o " .. out
   end
-  error("Thememanager requires 'curl' or 'wget'")
+  error("Missing curl or wget")
 end
 
 function M.download(url, out)

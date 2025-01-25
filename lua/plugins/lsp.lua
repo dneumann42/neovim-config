@@ -36,6 +36,7 @@ return {
       },
     },
   },
+
   {
     "williamboman/mason-lspconfig.nvim",
     lazy = false,
@@ -49,6 +50,7 @@ return {
       }
     },
   },
+
   {
     "neovim/nvim-lspconfig",
     dependencies = { 'saghen/blink.cmp' },
@@ -125,14 +127,45 @@ return {
       vim.keymap.set("n", bindings.diagnostic_prev, vim.diagnostic.goto_prev)
     end
   },
+
+  {
+    "olrtg/nvim-emmet",
+    config = function()
+      vim.keymap.set({ "n", "v" }, '<leader>xe', require('nvim-emmet').wrap_with_abbreviation)
+    end,
+  },
+
+  {
+    'nvim-treesitter/nvim-treesitter',
+    config = function()
+      require("nvim-treesitter.configs").setup {
+        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "tsx" },
+        auto_install = true,
+        highlight = {
+          enable = true,
+        }
+      }
+    end,
+  },
+
+  -- https://cmp.saghen.dev/installation#lazy-nvim
   {
     'saghen/blink.cmp',
-    lazy = false,
-    dependencies = 'rafamadriz/friendly-snippets',
-    version = 'v0.8.1',
+    version = "v0.10.0",
     opts = {
       keymap = {
         preset = 'default',
+        ['<A-1>'] = { function(cmp) cmp.accept({ index = 1 }) end },
+        ['<A-2>'] = { function(cmp) cmp.accept({ index = 2 }) end },
+        ['<A-3>'] = { function(cmp) cmp.accept({ index = 3 }) end },
+        ['<A-4>'] = { function(cmp) cmp.accept({ index = 4 }) end },
+        ['<A-5>'] = { function(cmp) cmp.accept({ index = 5 }) end },
+        ['<A-6>'] = { function(cmp) cmp.accept({ index = 6 }) end },
+        ['<A-7>'] = { function(cmp) cmp.accept({ index = 7 }) end },
+        ['<A-8>'] = { function(cmp) cmp.accept({ index = 8 }) end },
+        ['<A-9>'] = { function(cmp) cmp.accept({ index = 9 }) end },
+        ['<A-0>'] = { function(cmp) cmp.accept({ index = 10 }) end },
+
         ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
         ['<C-e>'] = { 'hide', 'fallback' },
 
@@ -158,66 +191,16 @@ return {
         ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
       },
       appearance = {
-        -- Sets the fallback highlight groups to nvim-cmp's highlight groups
-        -- Useful for when your theme doesn't support blink.cmp
-        -- will be removed in a future release
         use_nvim_cmp_as_default = true,
-        nerd_font_variant = 'mono'
+        nerd_font_variant = 'mono',
       },
-
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        default = { 'lsp', 'path', 'buffer' }
       },
-
-      -- Enables keymaps, completions and signature help when true
-      enabled = function() return vim.bo.buftype ~= "prompt" end,
-
-      snippets = {
-        -- Function to use when expanding LSP provided snippets
-        expand = function(snippet) vim.snippet.expand(snippet) end,
-        -- Function to use when checking if a snippet is active
-        active = function(filter) return vim.snippet.active(filter) end,
-        -- Function to use when jumping between tab stops in a snippet, where direction can be negative or positive
-        jump = function(direction) vim.snippet.jump(direction) end,
-      },
-
       completion = {
-        menu = {
-          enabled = true,
-          min_width = 15,
-          max_height = 10,
-          border = 'single',
-          winblend = 0,
-          winhighlight =
-          'Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None',
-        }
+        ghost_text = { enabled = true },
       }
-
-      -- signature = { enabled = true }
     },
-    opts_extend = { "sources.default" },
-    init = function()
-      vim.cmd [[ hi Pmenu ctermbg=NONE guibg=NONE ]]
-    end
   },
-
-  {
-    "olrtg/nvim-emmet",
-    config = function()
-      vim.keymap.set({ "n", "v" }, '<leader>xe', require('nvim-emmet').wrap_with_abbreviation)
-    end,
-  },
-
-  {
-    'nvim-treesitter/nvim-treesitter',
-    config = function()
-      require("nvim-treesitter.configs").setup {
-        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "tsx" },
-        auto_install = true,
-        highlight = {
-          enable = true,
-        }
-      }
-    end,
-  }
+  opts_extend = { "sources.default" }
 }
