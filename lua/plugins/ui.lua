@@ -5,6 +5,14 @@ return {
   { 'stevearc/dressing.nvim', opts = {}, },
 
   {
+    's1n7ax/nvim-window-picker',
+    name = 'window-picker',
+    event = 'VeryLazy',
+    version = '2.*',
+    opts = {},
+  },
+
+  {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
     lazy = false,
@@ -78,7 +86,10 @@ return {
     end,
     init = function()
       local bindings = require("config.keybindings")
-      vim.keymap.set('n', bindings.toggle_sidebar, '<cmd>Neotree toggle<cr>')
+
+      vim.keymap.set('n', bindings.toggle_sidebar, function()
+        vim.cmd "Neotree toggle reveal=true"
+      end)
 
       -- ensure neotree stays left when moving splits
       local function is_neotree_open()

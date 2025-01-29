@@ -3,7 +3,7 @@ if exists("b:current_syntax")
 endif
 
 " Keywords
-syntax keyword owlKeywords if else for while fun fn return elif then end do cond of def record module export in use
+syntax keyword owlKeywords if else for while fun fn return elif then end do cond of def record module export method in use type ,
 syntax keyword owlSpecial var def not eq noteq range
 " Add more keywords as needed
 
