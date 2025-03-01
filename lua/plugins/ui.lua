@@ -22,8 +22,12 @@ return {
       "MunifTanjim/nui.nvim",
     },
     opts = {
+      use_libuv_file_watcher=true,
       close_if_last_window = true,
       popup_border_style = "single",
+      follow_current_file = {
+        enabled = true
+      },
       window = {
         position = "left",
         width = 40,

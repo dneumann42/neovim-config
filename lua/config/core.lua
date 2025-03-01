@@ -10,6 +10,7 @@ vim.opt.expandtab = true
 
 -- custom tab size autocommands
 vim.cmd [[
+set clipboard+=unnamedplus
 autocmd FileType cs setlocal shiftwidth=4 softtabstop=4 expandtab
 ]]
 
