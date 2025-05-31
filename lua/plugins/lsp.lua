@@ -75,9 +75,6 @@ return {
             Lua = {}
           }
         },
-        nim_langserver = {
-          handlers = handlers,
-        },
         zls = {
           handlers = handlers,
         },
@@ -273,5 +270,13 @@ return {
         },
       },
     }
+  },
+  {
+    "pechorin/any-jump.vim",
+    config = function()
+      vim.cmd [[
+
+      ]] 
+    end
   }
 }

@@ -47,5 +47,8 @@ return {
     help_tags = '<space>h',
   },
   terminal = {
+  },
+  maindo = {
+    execute = "<F2>",
   }
 }
