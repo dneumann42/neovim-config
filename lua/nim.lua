@@ -42,9 +42,9 @@ local function report_line(line)
   if line:find("Hint") ~= nil and line:find("Hint") < 2 then
     return
   end
-  local location = line:sub(line:find("%("), #line)
+  local location = line:sub(line:find("%(") or 1, #line)
   local ln, col = location:match("%((%d+),%s*(%d+)%)")
-  local info_type_start = location:sub(location:find("%)") + 2, #location)
+  local info_type_start = location:sub((location:find("%)") or 1) + 2, #location)
   local info_type = info_type_start:sub(1, info_type_start:find(" ") - 2)
   if not info_type or not info_type_start then
     return
