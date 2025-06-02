@@ -109,4 +109,8 @@ vim.api.nvim_create_user_command("AddProject", M.add_project, {})
 vim.api.nvim_create_user_command("OpenProject", M.open_project, {})
 vim.api.nvim_create_user_command("RemoveProject", M.remove_project, {})
 
+vim.keymap.set("n", "<leader>P", function()
+  vim.cmd("OpenProject")
+end)
+
 return M

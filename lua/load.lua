@@ -11,3 +11,8 @@ require("commands")
 require("projects")
 require("maindo")
 require("nim")
+
+-- Neovide
+if vim.g.neovide then
+  require("neovide")
+end

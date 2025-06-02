@@ -38,7 +38,8 @@ return {
               use_float = true,
               use_image_nvim = false
             }
-          }
+          },
+          ["/"] = "noop"
         }
       },
       filesystem = {
