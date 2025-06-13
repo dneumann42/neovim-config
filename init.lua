@@ -1,3 +1,4 @@
--- Dustin Neumann's neovim config
-
-require("load")
+require("core")
+require("modules")
+require("plugins")
+require("lsp")
