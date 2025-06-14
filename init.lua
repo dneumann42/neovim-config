@@ -6,10 +6,8 @@ vim.g.loaded_netrwPlugin = 1
 require("core")
 require("modules")
 require("plugins")
+require("commands")
+require("terminal")
 require("lsp")
-
--- load session
--- local MiniSessions = require("mini.sessions")
--- local session = MiniSessions.get_latest()
--- if session then
--- end
+require("nim")
+require("maindo")

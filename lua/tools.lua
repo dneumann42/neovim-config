@@ -21,7 +21,7 @@ vim.tools.show_cursor_message = function(msg)
 		relative = "cursor",
 		row = 0,
 		col = 2,
-		width = 30,
+		width = 60,
 		height = math.max(#info_text, 1),
 		style = "minimal",
 	})

@@ -10,13 +10,31 @@ end
 
 set_tab_size(settings.tab_size)
 
+vim.api.nvim_create_autocmd("User", {
+	pattern = "VeryLazy",
+	callback = function()
+		local sessions = require("mini.sessions")
+		vim.o.background = settings.background
+		vim.cmd.colorscheme(settings.theme) -- or use Lua API if available
+		if sessions.get_latest() then
+			sessions.read(sessions.get_latest())
+		else
+			sessions.write("session")
+			sessions.read("session")
+		end
+	end,
+})
+
+-- local sessions = require("mini.sessions")
+-- vim.print(sessions.get_latest())
+
 vim.api.nvim_create_user_command("SetTabSize", function(value)
 	set_tab_size(tonumber(value.args))
 end, { nargs = 1 })
 
 vim.api.nvim_create_user_command("Restart", function(value)
-	-- local sessions = require("mini.sessions")
-	-- sessions.write()
+	local sessions = require("mini.sessions")
+	sessions.write("session")
 	vim.cmd("cquit 100")
 end, {})
 

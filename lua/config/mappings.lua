@@ -11,6 +11,11 @@ return {
 		status = "<space>gg",
 		commit = "<space>gc",
 	},
+	commands = {
+		run = "<F5>",
+		select = "<F6>",
+		new = "<F7>",
+	},
 	split = {
 		horizontal = "<C-x>2",
 		vertical = "<C-x>3",
@@ -42,7 +47,9 @@ return {
 		buffers2 = "<leader>b",
 		help_tags = "<space>h",
 	},
-	terminal = {},
+	terminal = {
+		toggle = "<C-SPACE>",
+	},
 	maindo = {
 		execute = "<F2>",
 	},

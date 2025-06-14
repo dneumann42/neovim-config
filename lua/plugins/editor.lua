@@ -5,7 +5,7 @@ return {
 		opts = {
 			autoread = true,
 			autowrite = true,
-			directory = "~/.config/nvim/",
+			directory = os.getenv("HOME") .. "/.local/state/nvim/sessions/",
 			file = "Session.vim",
 			force = { read = false, write = true, delete = false },
 			hooks = {
@@ -20,7 +20,7 @@ return {
 	},
 	{
 		"kylechui/nvim-surround",
-		version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
+		version = "^3.0.0",
 		event = "VeryLazy",
 		opts = {},
 		config = function(_, opts)
