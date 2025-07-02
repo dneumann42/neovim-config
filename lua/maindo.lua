@@ -48,4 +48,14 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   callback = on_markdown_save,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.keymap.set("n", "<leader>to", function()
+      vim.cmd("normal! i- [ ]  ")
+      vim.cmd("startinsert")
+    end)
+  end,
+})
+
 return M

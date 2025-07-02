@@ -3,7 +3,7 @@ local M = {
 }
 
 function M.is_open()
-  if M.buffer == 0 then
+  if M.buffer <= 0 then
     return false
   end
   local window_number = vim.fn.bufwinnr(M.buffer)
@@ -34,13 +34,20 @@ function M.new_tab()
   vim.cmd("tabnew")
 end
 
-function M.toggle_terminal(size)
+function M.close_terminal()
   if vim.fn.bufexists(M.buffer) == 0 then
     M.buffer = -1
   end
 
   if M.is_open() then
     vim.api.nvim_buf_delete(M.buffer, { force = true })
+    return true
+  end
+  return false
+end
+
+function M.toggle_terminal(size)
+  if M.close_terminal() then
     return
   end
 
@@ -63,7 +70,14 @@ end
 local opts = { noremap = true, silent = true }
 vim.keymap.set('n', '<C-SPACE>', M.toggle_terminal, opts)
 vim.keymap.set('t', '<C-SPACE>', M.toggle_terminal, opts)
-
 vim.keymap.set('t', '<C-x>n', M.new_tab, opts)
+
+vim.api.nvim_create_user_command("CloseTerminal", function()
+  M.close_terminal()
+end, {})
+
+vim.api.nvim_create_user_command("ToggleTerminal", function()
+  M.toggle_terminal()
+end, {})
 
 return M

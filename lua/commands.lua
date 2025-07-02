@@ -78,6 +78,9 @@ function M.send_command_to_terminal(command)
 end
 
 function M.run_command(command)
+  if Terminal.is_open() then
+    Terminal.close_terminal()
+  end
   M.send_command_to_terminal(command)
 end
 
@@ -119,6 +122,24 @@ end
 function M.swap()
   M.run(true)
 end
+
+M.auto_rerun = false
+
+vim.api.nvim_create_user_command("EnableRerun",
+  function()
+    if M.auto_rerun then
+      return
+    end
+
+    M.auto_rerun = true
+    vim.api.nvim_create_autocmd("BufWritePost", {
+      pattern = "*",
+      callback = function()
+        M.run()
+        vim.cmd("stopinsert")
+      end,
+    })
+  end, {})
 
 vim.api.nvim_create_user_command("SelectCommand", function() M.run(true) end, {})
 vim.api.nvim_create_user_command("RunCommand", function() M.run() end, {})

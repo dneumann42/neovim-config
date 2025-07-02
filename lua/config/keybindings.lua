@@ -2,6 +2,7 @@ return {
   toggle_sidebar = '<space>e',
   commands = {
     run = "<F5>",
+    run_new = "<F10>",
     select = "<F6>",
     new = "<F7>",
   },
