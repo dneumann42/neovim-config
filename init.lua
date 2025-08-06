@@ -1,3 +1,5 @@
 require("core")
-
-print("Welcome Dustin")
+require("plugins")
+require("lsp")
+require("ui")
+require("editing")
