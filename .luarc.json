@@ -1,5 +1,13 @@
 {
     "diagnostics.globals": [
         "vim"
+    ],
+    "workspace.library": [
+        "${3rd}/love2d/library",
+        "/usr/local/share/lua/5.3",
+        "/home/dneumann/.local/share/bob/nightly/share/nvim/runtime/lua",
+        "/home/dneumann/.local/share/bob/nightly/share/nvim/runtime/lua/vim/lsp",
+        "/home/dneumann/.config/nvim/lua",
+        "${3rd}/luv/library"
     ]
 }

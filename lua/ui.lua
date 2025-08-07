@@ -1,8 +1,7 @@
 local Ui = {}
-
 local Core = require("core")
 
-function Ui.configure_widgets()
+function vim.ui.select2(options, cfg, on_select)
     local n = require("nui-components")
 
     local renderer = n.create_renderer({
@@ -11,37 +10,81 @@ function Ui.configure_widgets()
     })
 
     local signal = n.create_signal({
-        selected = { "poland" }
+        selected = cfg.selected and { cfg.selected } or {}
     })
 
-    local body = function()
+    local data = {}
+    for i = 1, #options do
+        local o = options[i]
+        table.insert(data, n.option(o.label, { id = o.id }))
+    end
+
+    local function body()
         return n.select({
             autofocus = true,
-            border_label = "Select countries",
+            border_label = cfg.prompt or "Select",
             selected = signal.selected,
-            data = {
-                n.separator("Europe"),
-                n.option("Poland", { id = "poland" }),
-                n.option("Spain", { id = "spain" }),
-                n.option("Portugal", { id = "portugal" }),
-                n.option("France", { id = "france" }),
-                n.option("Germany", { id = "germany" }),
-                n.separator("North America"),
-                n.option("USA", { id = "usa" }),
-                n.option("Canada", { id = "canada" }),
-            },
-            multiselect = true,
+            data = data,
+            multiselect = false,
             on_select = function(nodes)
                 signal.selected = nodes
                 renderer:close()
+                on_select(nodes.id)
             end,
+            on_change = function(nodes)
+                vim.cmd.colorscheme(nodes.id)
+            end,
+            mappings = function()
+                return {
+                    {
+                        mode = { "n" },
+                        key = 'q',
+                        handler = function()
+                            if cfg.selected then
+                                vim.cmd.colorscheme(cfg.selected)
+                            end
+                            renderer:close()
+                        end,
+                    },
+                    {
+                        mode = { "n" },
+                        key = 'p',
+                        handler = function()
+                        end,
+                    },
+                    {
+                        mode = { "n" },
+                        key = 'n',
+                        handler = function()
+                        end,
+                    }
+                }
+            end
         })
     end
 
     renderer:render(body)
 end
 
+function vim.ui.find_file()
+    local n = require("nui-components")
+
+    local renderer = n.create_renderer({
+        width = 60,
+        height = 20,
+    })
+
+    local function body()
+        -- return n.col
+    end
+
+    renderer:render(body)
+end
+
 function Ui.configure()
+    vim.g.loaded_netrw = 1
+    vim.g.loaded_netrwPlugin = 1
+
     require("neo-tree").setup {
         use_libuv_file_watcher = true,
         close_if_last_window = true,
@@ -85,10 +128,10 @@ function Ui.configure()
             git_status = {
                 symbols = {
                     -- Change type
-                    added     = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
-                    modified  = "", -- or "", but this is redundant info if you use git_status_colors on the name
-                    deleted   = "✖", -- this can only be used in the git_status source
-                    renamed   = "󰁕", -- this can only be used in the git_status source
+                    added     = "",
+                    modified  = "",
+                    deleted   = "✖",
+                    renamed   = "󰁕",
                     -- Status type
                     untracked = "",
                     ignored   = "",
@@ -103,10 +146,54 @@ function Ui.configure()
     vim.keymap.set('n', "<leader>n", function()
         vim.cmd "Neotree toggle reveal=true"
     end)
+
+    -- ensure neotree stays left when moving splits
+    local function is_neotree_open()
+        for _, win_id in ipairs(vim.api.nvim_list_wins()) do
+            local buf_id = vim.api.nvim_win_get_buf(win_id)
+            local buf_name = vim.api.nvim_buf_get_name(buf_id)
+            if string.find(buf_name, 'neo%-tree') then
+                return true
+            end
+        end
+        return false
+    end
+
+    local function wincmd_H()
+        local toggle = is_neotree_open()
+        if toggle then vim.cmd [[ Neotree toggle ]] end
+        vim.cmd [[ wincmd H ]]
+        if toggle then
+            local current_win = vim.api.nvim_get_current_win()
+            vim.cmd [[ Neotree toggle ]]
+            vim.api.nvim_set_current_win(current_win)
+        end
+    end
+
+    vim.keymap.set('n', '<C-w>H', wincmd_H)
+
+    vim.api.nvim_create_autocmd("BufEnter", {
+        group = vim.api.nvim_create_augroup("Neotree_start_directory", { clear = true }),
+        desc = "Start Neo-tree with directory",
+        once = true,
+        callback = function()
+            if vim.g.started_neotree then
+                return
+            end
+            vim.g.started_neotree = true
+            local arg0 = vim.fn.argv(0)
+            if vim.fn.isdirectory(arg0) == 1 then
+                if type(arg0) == "string" then
+                    vim.fn.chdir(arg0)
+                end
+
+                vim.cmd [[ Neotree position=current ]]
+            end
+        end,
+    })
 end
 
 vim.api.nvim_create_user_command("ColorScheme", function(value)
-    -- local colorscheme = require("settings").common.colorscheme
     vim.cmd("silent! colorscheme " .. value.args)
     Core.update_settings({ common = { colorscheme = value.args } })
 end, { nargs = 1 })
@@ -114,22 +201,21 @@ end, { nargs = 1 })
 vim.api.nvim_create_user_command("SwitchColorScheme", function(value)
     local colorschemes = vim.fn.getcompletion("", "color")
 
-    vim.ui.select(colorschemes, {
-        prompt = 'Pick a new theme: ',
-        format_item = function(item)
-            return item
-        end,
-    }, function(choice)
-        if not choice then
-            return
-        end
+    local current_colorscheme = vim.g.colors_name
 
-        vim.cmd("silent! colorscheme " .. choice)
+    local options = {}
+    for i = 1, #colorschemes do
+        table.insert(options, { id = colorschemes[i], label = colorschemes[i] })
+    end
+
+    vim.ui.select2(options, {
+        prompt = 'Pick a new theme: ',
+        selected = current_colorscheme
+    }, function(choice)
         Core.update_settings({ common = { colorscheme = choice } })
     end)
 end, { nargs = 0 })
 
 Ui.configure()
-Ui.configure_widgets()
 
 return Ui

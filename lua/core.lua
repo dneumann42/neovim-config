@@ -1,6 +1,4 @@
 local config_path = vim.fn.stdpath("config")
-local lua_dir = config_path .. "/lua"
-local filename = lua_dir .. "/mymodule.lua"
 
 local Core = {
     config_path = vim.fn.stdpath("config"),
@@ -22,7 +20,6 @@ function Core.update_settings(override)
     if file then
         file:write(script)
         file:close()
-
         vim.notify("Updated settings")
     else
         error("Failed to write to settings file")
@@ -43,6 +40,12 @@ function Core.set_options()
     local settings = Core.require("settings")
 
     Core.set_tab_size(settings.common.tab_size)
+
+    vim.cmd.colorscheme(settings.common.colorscheme)
+
+    vim.g.mapleader = ","
+    vim.g.maplocalleader = ","
+    vim.g.big_file = { size = 1024 * 5000, lines = 50000 }
 
     vim.opt.breakindent = true
     vim.opt.clipboard = "unnamedplus"
@@ -81,32 +84,61 @@ function Core.set_options()
     vim.opt.shortmess:append { s = true, I = true }
     vim.opt.backspace:append { "nostop" }
     vim.opt.diffopt:append { "algorithm:histogram", "linematch:60" }
-
-    vim.g.mapleader = ","
-    vim.g.maplocalleader = ","
-    vim.g.big_file = { size = 1024 * 5000, lines = 50000 }
+    vim.opt.iskeyword:remove("(")
 end
 
 local function file_exists(path)
     return vim.loop.fs_stat(path) ~= nil
 end
 
+function Core.is_neo_tree_open()
+    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+        local b = vim.api.nvim_buf_get_name(bufnr)
+        if string.find(b, "neo%-tree") then
+            return true
+        end
+    end
+    return false
+end
+
+function Core.build_session_state()
+    -- this generates a dictionary of variables that I want to save within the session
+    local neo_tree_open = Core.is_neo_tree_open()
+    return string.format([[
+        let g:session_state = {
+            \ 'neo-tree-open': %d,
+        \}
+    ]], neo_tree_open and 1 or 0)
+end
+
+function Core.restore_session()
+    local session = Core.cache_path .. "/nvim_session"
+    if file_exists(session) then
+        -- vim.cmd("source " .. session)
+
+        -- vim.cmd([[
+        --   if g:session_state['neo-tree-open'] == 1
+        --     execute 'Neotree show'
+        --   endif
+        -- ]])
+
+        -- Fixes an issue where syntax highlighting is disabled
+        local settings = require("settings")
+        vim.cmd.colorscheme(settings.common.colorscheme)
+    end
+end
+
 function Core.configure_sessions()
     local session = Core.cache_path .. "/nvim_session"
-
-    vim.schedule(function()
-        if file_exists(session) then
-            vim.cmd("source " .. session)
-            vim.cmd(":Neotree show")
-            local settings = require("settings")
-            vim.cmd("silent! colorscheme " .. settings.common.colorscheme)
-        end
-    end)
-
+    vim.schedule(Core.restore_session)
     vim.api.nvim_create_autocmd("VimLeavePre", {
         callback = function()
-            vim.cmd(":Neotree close")
-            vim.cmd(":mksession! " .. session)
+            vim.cmd(string.format("mksession! %s", session))
+            local f = io.open(session, "a")
+            if f then
+                f:write(Core.build_session_state())
+                f:close()
+            end
         end,
     })
 end

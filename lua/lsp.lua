@@ -5,6 +5,26 @@ local Config = {
     lua_ls = {
         settings = {
             Lua = {
+                completion = {
+                    autoRequire = true,
+                    displayContext = 10
+                },
+                telemetry = {
+                    enable = false,
+                },
+                diagnostics = {
+                    globals = { 'vim' }, -- Add 'vim' as a global to avoid warnings
+                },
+                workspace = {
+                    checkThirdParty = true,
+                    library = {
+                        "${3rd}/love2d/library",
+                        "/usr/local/share/lua/5.3",
+                        vim.env.VIMRUNTIME .. "/lua",
+                        vim.env.VIMRUNTIME .. "/lua/vim/lsp",
+                        vim.fn.stdpath("config") .. "/lua",
+                    }
+                },
             },
         },
     }
