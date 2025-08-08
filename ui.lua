@@ -94,69 +94,69 @@ function Ui.configure()
         }
     }
 
-    -- require("neo-tree").setup {
-    --     use_libuv_file_watcher = true,
-    --     close_if_last_window = true,
-    --     popup_border_style = "single",
-    --     follow_current_file = {
-    --         enabled = true,
-    --         leave_dirs_open = true,
-    --     },
-    --     window = {
-    --         position = "left",
-    --         width = 40,
-    --         mappings = {
-    --             ["P"] = {
-    --                 "toggle_preview",
-    --                 config = {
-    --                     use_float = true,
-    --                     use_image_nvim = false
-    --                 }
-    --             },
-    --             ["/"] = "noop"
-    --         }
-    --     },
-    --     filesystem = {
-    --         -- I manually handle this behavior
-    --         hijack_netrw_behavior = "disabled"
-    --     },
-    --     default_component_configs = {
-    --         diagnostics = {
-    --             symbols = {
-    --                 hint = "󰌵",
-    --                 info = " ",
-    --                 warn = " ",
-    --                 error = " ",
-    --             },
-    --             highlights = {
-    --                 hint = "DiagnosticSignHint",
-    --                 info = "DiagnosticSignInfo",
-    --                 warn = "DiagnosticSignWarn",
-    --                 error = "DiagnosticSignError",
-    --             },
-    --         },
-    --         git_status = {
-    --             symbols = {
-    --                 -- Change type
-    --                 added     = "",
-    --                 modified  = "",
-    --                 deleted   = "✖",
-    --                 renamed   = "󰁕",
-    --                 -- Status type
-    --                 untracked = "",
-    --                 ignored   = "",
-    --                 unstaged  = "",
-    --                 staged    = "",
-    --                 conflict  = "",
-    --             }
-    --         },
-    --     },
-    -- }
-    --
-    -- vim.keymap.set('n', "<leader>n", function()
-    --     vim.cmd "Neotree toggle reveal=true"
-    -- end)
-    --
+    require("neo-tree").setup {
+        use_libuv_file_watcher = true,
+        close_if_last_window = true,
+        popup_border_style = "single",
+        follow_current_file = {
+            enabled = true,
+            leave_dirs_open = true,
+        },
+        window = {
+            position = "left",
+            width = 40,
+            mappings = {
+                ["P"] = {
+                    "toggle_preview",
+                    config = {
+                        use_float = true,
+                        use_image_nvim = false
+                    }
+                },
+                ["/"] = "noop"
+            }
+        },
+        filesystem = {
+            -- I manually handle this behavior
+            hijack_netrw_behavior = "disabled"
+        },
+        default_component_configs = {
+            diagnostics = {
+                symbols = {
+                    hint = "󰌵",
+                    info = " ",
+                    warn = " ",
+                    error = " ",
+                },
+                highlights = {
+                    hint = "DiagnosticSignHint",
+                    info = "DiagnosticSignInfo",
+                    warn = "DiagnosticSignWarn",
+                    error = "DiagnosticSignError",
+                },
+            },
+            git_status = {
+                symbols = {
+                    -- Change type
+                    added     = "",
+                    modified  = "",
+                    deleted   = "✖",
+                    renamed   = "󰁕",
+                    -- Status type
+                    untracked = "",
+                    ignored   = "",
+                    unstaged  = "",
+                    staged    = "",
+                    conflict  = "",
+                }
+            },
+        },
+    }
+
+    vim.keymap.set('n', "<leader>n", function()
+        vim.cmd "Neotree toggle reveal=true"
+    end)
+
     -- ensure neotree stays left when moving splits
     local function is_neotree_open()
         for _, win_id in ipairs(vim.api.nvim_list_wins()) do
