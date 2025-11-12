@@ -1,116 +1,153 @@
-local Path = require("plenary.path")
-local context_manager = require("plenary.context_manager")
-local with, open = context_manager.with, context_manager.open
-local core = require("lib.core")
+vim.d.projects = {
+    markers = {
+        ".git", "package.json", "pnpm-workspace.yaml", "yarn.lock",
+        "pyproject.toml", "Cargo.toml", "go.mod",
+        "Makefile", "CMakeLists.txt",
+    },
+    paths = {
+    }
+}
 
-local projects_filename = ".nvim_projects"
+local function fs_exists(p) return vim.loop.fs_stat(p) ~= nil end
 
-local M = {}
-
-local function get_git_root()
-  local dot_git_path = vim.fn.finddir(".git", ".;")
-  return vim.fn.fnamemodify(dot_git_path, ":h")
-end
-
-local function get_pfile_path()
-  local path = vim.fs.joinpath(tostring(vim.fn.stdpath("config")), projects_filename)
-  return Path:new(path)
-end
-
-local function get_lines_from_projects_file()
-  local path = get_pfile_path()
-  if not path:exists() then
-    return {}
-  end
-  return with(open(path:expand()), function(reader)
-    return vim.tbl_filter(function(x) return x ~= "" end, core.split_lines(reader:read("*a")))
-  end)
-end
-
-local function write_lines_to_projects_file(lines)
-  local path = get_pfile_path()
-  local contents = table.concat(lines or {}, "\n")
-  with(open(path:expand(), "w"), function(writer)
-    writer:write(contents)
-  end)
-end
-
-local function get_project_parts(line)
-  local parts = {}
-  for part in string.gmatch(line, "([^,]+)") do
-    table.insert(parts, part)
-  end
-  return parts
-end
-
-function M.add_project()
-  local path = get_git_root()
-  local dir = vim.fn.fnamemodify(path, ':p')
-  if dir:sub(-1) == "/" then
-    dir = dir:sub(1, -2)
-  end
-  local name = vim.fn.fnamemodify(dir, ":t")
-  local lines = get_lines_from_projects_file()
-
-  for i = 1, #lines do
-    if get_project_parts(lines[i])[2] == dir then
-      vim.print("Project already exists")
-      return
+local function is_git_repo(path)
+    if fs_exists(path .. "/.git") then return true end
+    if vim.system then
+        local r = vim.system({ "git", "-C", path, "rev-parse", "--is-inside-work-tree" }, { text = true }):wait()
+        return (r.code == 0) and r.stdout:match("true")
+    else
+        return vim.fn.system({ "git", "-C", path, "rev-parse", "--is-inside-work-tree" }):match("true") ~= nil
     end
-  end
-
-  vim.ui.input({ prompt = "Project Name", default = name }, function(new_name)
-    if new_name == nil then
-      return
-    end
-
-    table.insert(lines, new_name .. "," .. dir)
-    write_lines_to_projects_file(lines)
-    vim.print("Added project")
-  end)
 end
 
-function M.remove_project()
-  local lines = get_lines_from_projects_file()
-  local names = {}
-  for i = 1, #lines do
-    local splits = get_project_parts(lines[i])
-    table.insert(names, splits[1])
-  end
-  vim.ui.select(names, { prompt = "Select a project" }, function(name, idx)
-    if not name or not idx then
-      return
+function vim.d.projects:find_marker(path)
+    for _, f in ipairs(self.markers) do
+        if fs_exists(path .. "/" .. f) then return f end
     end
-    table.remove(lines, idx)
-    write_lines_to_projects_file(lines)
-  end)
+    return nil
 end
 
-function M.open_project()
-  local lines = get_lines_from_projects_file()
-  local names = {}
-  for i = 1, #lines do
-    local splits = get_project_parts(lines[i])
-    table.insert(names, splits[1])
-  end
-  vim.ui.select(names, { prompt = "Select a project" }, function(name, idx)
-    if not name or not idx then
-      return
+function vim.d.projects:check(path, cb)
+    local marker = self:find_marker(path)
+    local git = is_git_repo(path)
+    if git or marker then
+        cb(path, { is_git = git, marker = marker })
     end
-    local project_path = get_project_parts(lines[idx])[2]
-    vim.api.nvim_set_current_dir(project_path)
-
-    local builtin = require('telescope.builtin')
-    builtin.find_files()
-  end)
 end
 
-vim.api.nvim_create_user_command("AddProject", M.add_project, {})
-vim.api.nvim_create_user_command("OpenProject", M.open_project, {})
-vim.api.nvim_create_user_command("RemoveProject", M.remove_project, {})
+function vim.d.projects:prompt_yes_no(msg)
+    local choice = vim.fn.confirm(msg, "&Yes\n&No", 2) -- 1=yes, 2=no
+    return choice == 1
+end
 
-vim.keymap.set("n", "<leader>P", function()
-  vim.cmd("OpenProject")
-end)
+local function get_directory_name()
+    local dir = vim.fn.getcwd()
+    local i = #dir
+    while i > 1 do
+        local ch = dir:sub(i, i)
+        if ch == "\\" or ch == "/" then
+            return dir:sub(i + 1, #dir)
+        end
+        i = i - 1
+    end
+end
 
-return M
+function vim.d.projects:add_project()
+    local name = vim.fn.input({ prompt = "Project name: ", default = get_directory_name() })
+    if not name then
+        return
+    end
+    local cwd = vim.fn.getcwd()
+    table.insert(vim.d.projects.paths, {
+        name = name,
+        path = cwd
+    })
+end
+
+function vim.d.projects:write_projects()
+    local projects_path = vim.env.HOME .. "/.local/share/nvim/"
+    vim.system { 'mkdir', "-p", projects_path }
+    local lines = {}
+    for i = 1, #vim.d.projects.paths do
+        local project = vim.d.projects.paths[i]
+        table.insert(lines, string.format([['%s' '%s']], project.name, project.path))
+    end
+    local content = table.concat(lines, "\n")
+    local file = io.open(projects_path .. "projects", "w")
+    if file then
+        file:write(content)
+        file:close()
+    end
+end
+
+function vim.d.projects.read_projects()
+    local projects_path = vim.env.HOME .. "/.local/share/nvim/"
+    vim.system { 'mkdir', "-p", projects_path }
+    local file = io.open(projects_path .. "projects", "r")
+    if not file then
+        return
+    end
+
+    local content = file:read("*a")
+    local it = 1
+
+    while it < #content do
+        local start = 1
+
+        local ch = content:sub(it, it)
+
+        if ch == "'" then
+            it = it + 1
+            local name_start = it
+            while it < #content and content:sub(it, it) ~= "'" do
+                it = it + 1
+            end
+            if it > #content then
+                error("Invalid project name. unexpected EOF")
+            end
+
+            local name = content:sub(name_start, it - 1)
+
+            it = it + 1
+            while it < #content and content:sub(it, it) == " " do
+                it = it + 1
+            end
+            if it > #content then
+                error("Invalid whitespace. unexpected EOF")
+            end
+
+            if ch == "'" then
+                it = it + 1
+                local path_start = it
+                while it < #content and content:sub(it, it) ~= "'" do
+                    it = it + 1
+                end
+                if it > #content then
+                    error("Invalid project path. unexpected EOF")
+                end
+                it = it + 1
+
+                local path = content:sub(path_start, it - 1)
+
+                table.insert(vim.d.projects.paths, {
+                    name = name,
+                    path = path
+                })
+            end
+        end
+
+        if ch == "\r" then it = it + 1 end
+        ch = content:sub(it, it)
+        if ch == "\n" then it = it + 1 end
+    end
+
+    file:close()
+end
+
+vim.api.nvim_create_autocmd("VimEnter", {
+    group = vim.api.nvim_create_augroup("Projects", { clear = true }),
+    callback = function()
+        vim.d.read_projects()
+    end,
+    nested = true,
+})
