@@ -43,4 +43,17 @@ function Module.reload_all()
     end
 end
 
+vim.api.nvim_create_user_command("ModuleReload", function(opts)
+    Module.reload(opts.args)
+end, {
+    nargs = 1,
+    complete = function()
+        return vim.tbl_keys(Module.modules)
+    end,
+})
+
+vim.api.nvim_create_user_command("ModuleReloadAll", function()
+    Module.reload_all()
+end, {})
+
 return Module

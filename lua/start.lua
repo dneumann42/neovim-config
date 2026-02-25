@@ -1,6 +1,8 @@
 vim.my.apply_settings = function()
     local settings = vim.my.require_load("settings")
 
+    vim.g.mapleader = settings.mapleader.value
+
     -- Indentation
     local indent = settings.indentation
     vim.opt.tabstop = indent.value
