@@ -52,6 +52,10 @@
       "rev": "4abd79d6fbaca57bf437763d0b5bed364e4512bd",
       "src": "https://github.com/vague2k/vague.nvim"
     },
+    "which-key.nvim": {
+      "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
+      "src": "https://github.com/folke/which-key.nvim"
+    },
     "witch": {
       "rev": "b943dd5397b7fd0216d7143f16a3a202ff64b5d3",
       "src": "https://github.com/sontungexpt/witch"

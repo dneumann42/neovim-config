@@ -61,6 +61,7 @@ return {
     { "nvim-lua/plenary.nvim" },
     { "nvim-tree/nvim-web-devicons" },
     { "folke/snacks.nvim" },
+    { "folke/which-key.nvim" },
     { "NeogitOrg/neogit" },
     { "nvim-mini/mini.surround" },
     { "nvim-mini/mini.files" },

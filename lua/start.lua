@@ -26,10 +26,6 @@ vim.my.apply_settings = function()
     -- Colorscheme
     local cs = settings.colorscheme
     vim.cmd.colorscheme(cs.value)
-    if cs.clear_background then
-        vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-        vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-    end
 end
 
 vim.my.module "Start" {

@@ -3,6 +3,7 @@ return {
         bar = {
             sources = function(buf, win)
                 local sources = require("dropbar.sources")
+                vim.print(sources)
                 return { sources.path } -- only use file path, no symbols
             end,
         },

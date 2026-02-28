@@ -1,23 +1,20 @@
 return {
     opts = {
         defaults = {
+            layout_strategy = "horizontal",
             layout_config = {
-                vertical = { width = 0.5 }
-            }
+                horizontal = {
+                    preview_width = 0.55,
+                    width = 0.9,
+                    height = 0.85,
+                }
+            },
         },
         pickers = {
-            find_files = {
-                theme = "dropdown"
-            },
-            live_grep = {
-                theme = "dropdown"
-            }
+            find_files = {},
+            live_grep = {},
         },
-        extensions = {
-            live_grep_args = {
-                theme = "dropdown"
-            }
-        }
+        extensions = {}
     },
     setup = function()
         local telescope = require("telescope")
@@ -29,9 +26,7 @@ return {
         vim.keymap.set('n', bindings.telescope_find_file, builtin.find_files, {})
         vim.keymap.set('n', bindings.telescope_find_buffer, builtin.buffers, {})
         vim.keymap.set('n', bindings.telescope_live_grep, function()
-            require("telescope").extensions.live_grep_args.live_grep_args {
-                theme = "dropdown"
-            }
+            require("telescope").extensions.live_grep_args.live_grep_args()
         end, {})
         vim.keymap.set('n', bindings.telescope_help, builtin.help_tags, {})
     end,
