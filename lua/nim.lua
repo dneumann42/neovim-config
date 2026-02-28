@@ -133,7 +133,41 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.keymap.set("n", bindings.nim_doc_float, function()
             local filename = vim.api.nvim_buf_get_name(0)
             local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-            local query = string.format("def %s:%d:%d", filename, row, col + 1)
+            local line = vim.api.nvim_get_current_line()
+
+            -- char_at uses 0-indexed col
+            local function char_at(c)
+                return line:sub(c + 1, c + 1)
+            end
+
+            -- Snap to nearest identifier: scan left from cursor (handles a.b(), a.b(|))
+            local c = col
+            if not char_at(c):match("[%w_]") then
+                local left = c - 1
+                while left >= 0 and not char_at(left):match("[%w_]") do
+                    left = left - 1
+                end
+                if left >= 0 then
+                    c = left
+                else
+                    vim.notify("nimsuggest: no identifier near cursor", vim.log.levels.INFO)
+                    return
+                end
+            end
+            -- Walk back to the start of this identifier
+            while c > 0 and char_at(c - 1):match("[%w_]") do
+                c = c - 1
+            end
+
+            -- Extract identifier name (for filtering sug results)
+            local id_end = c
+            while char_at(id_end):match("[%w_]") do id_end = id_end + 1 end
+            local id_name = line:sub(c + 1, id_end)  -- 1-indexed slice
+
+            -- Use sug for method syntax (a.b()), def for plain calls
+            local is_method = c > 0 and char_at(c - 1) == "."
+            local cmd = is_method and "sug" or "def"
+            local query = string.format("%s %s:%d:%d", cmd, filename, row, c + 1)
             local output = {}
             local job_id = vim.fn.jobstart({ "nimsuggest", "--stdin", filename }, {
                 stdin           = "pipe",
@@ -151,12 +185,19 @@ vim.api.nvim_create_autocmd("FileType", {
                         return
                     end
                     -- response lines: cmd\tsk\tqualname\ttype\tfile\tline\tcol\tdoc\tquality
-                    -- skip nimsuggest's startup banner; find the first result line
+                    -- skip nimsuggest's startup banner; find the matching result line
                     local result_line = nil
                     for _, l in ipairs(output) do
-                        if l:match("^def\t") or l:match("^sug\t") then
+                        if l:match("^def\t") then
                             result_line = l
                             break
+                        elseif l:match("^sug\t") then
+                            -- sug returns all completions; match by exact identifier name
+                            local qname = vim.split(l, "\t")[3] or ""
+                            if qname == id_name or qname:match("%." .. id_name .. "$") then
+                                result_line = l
+                                break
+                            end
                         end
                     end
                     if not result_line then
