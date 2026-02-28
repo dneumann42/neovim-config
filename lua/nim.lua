@@ -116,13 +116,111 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "nim",
     callback = function()
+        local bindings = vim.my.settings.bindings
+
         vim.keymap.set("n", "<C-]>", function()
             vim.cmd("AnyJump")
         end, { buffer = true, desc = "Custom Nim jump handler" })
 
-        vim.keymap.set("n", "<C-K>", function()
+        vim.keymap.set("n", bindings.nim_diagnostics_float, function()
+            vim.diagnostic.open_float({
+                scope  = "cursor",
+                border = "rounded",
+                source = true,
+            })
+        end, { buffer = true, desc = "Nim: show diagnostics at cursor" })
 
-        end, { buffer = true, desc = "Custom Nim jump handler" })
+        vim.keymap.set("n", bindings.nim_doc_float, function()
+            local filename = vim.api.nvim_buf_get_name(0)
+            local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+            local query = string.format("def %s:%d:%d", filename, row, col + 1)
+            local output = {}
+            local job_id = vim.fn.jobstart({ "nimsuggest", "--stdin", filename }, {
+                stdin           = "pipe",
+                stdout_buffered = true,
+                stderr_buffered = true,
+                on_stdout = function(_, lines)
+                    for _, l in ipairs(lines) do
+                        if l ~= "" then table.insert(output, l) end
+                    end
+                end,
+                on_exit = function()
+                  vim.schedule(function()
+                    if #output == 0 then
+                        vim.notify("nimsuggest: no result", vim.log.levels.INFO)
+                        return
+                    end
+                    -- response lines: cmd\tsk\tqualname\ttype\tfile\tline\tcol\tdoc\tquality
+                    -- skip nimsuggest's startup banner; find the first result line
+                    local result_line = nil
+                    for _, l in ipairs(output) do
+                        if l:match("^def\t") or l:match("^sug\t") then
+                            result_line = l
+                            break
+                        end
+                    end
+                    if not result_line then
+                        vim.notify("nimsuggest: no result for symbol", vim.log.levels.INFO)
+                        return
+                    end
+                    local parts = vim.split(result_line, "\t")
+                    local name  = parts[3] or ""
+                    local typ   = parts[4] or ""
+                    local doc   = parts[8] or ""
+                    local lines_out = {}
+                    if name ~= "" then table.insert(lines_out, name) end
+                    if typ  ~= "" then table.insert(lines_out, typ) end
+                    if doc  ~= "" then
+                        table.insert(lines_out, "")
+                        for _, dl in ipairs(vim.split(doc, "\\n")) do
+                            table.insert(lines_out, dl)
+                        end
+                    end
+                    if #lines_out == 0 then
+                        vim.notify("nimsuggest: no result for symbol", vim.log.levels.INFO)
+                        return
+                    end
+                    local w = 0
+                    for _, l in ipairs(lines_out) do w = math.max(w, #l) end
+                    w = math.max(w, 20)
+                    local buf = vim.api.nvim_create_buf(false, true)
+                    vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines_out)
+                    vim.bo[buf].modifiable = false
+                    if name ~= "" then
+                        vim.api.nvim_buf_add_highlight(buf, -1, "Identifier", 0, 0, -1)
+                    end
+                    if typ ~= "" then
+                        local typ_line = name ~= "" and 1 or 0
+                        vim.api.nvim_buf_add_highlight(buf, -1, "Type", typ_line, 0, -1)
+                    end
+                    local win = vim.api.nvim_open_win(buf, false, {
+                        relative  = "cursor",
+                        row       = 1,
+                        col       = 0,
+                        width     = w,
+                        height    = #lines_out,
+                        style     = "minimal",
+                        border    = "rounded",
+                        focusable = false,
+                        zindex    = 50,
+                    })
+                    vim.api.nvim_create_autocmd({ "CursorMoved", "InsertEnter" }, {
+                        once     = true,
+                        callback = function()
+                            if vim.api.nvim_win_is_valid(win) then
+                                vim.api.nvim_win_close(win, true)
+                            end
+                            if vim.api.nvim_buf_is_valid(buf) then
+                                vim.api.nvim_buf_delete(buf, { force = true })
+                            end
+                        end,
+                    })
+                  end) -- vim.schedule
+                end,
+            })
+            vim.fn.chansend(job_id, query .. "\n")
+            vim.fn.chanclose(job_id, "stdin")
+        end, { buffer = true, desc = "Nim: show documentation at cursor" })
     end,
 })
 
@@ -179,7 +277,7 @@ end
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
-    local bindings = vim.d.settings.bindings
+    local bindings = vim.my.settings.bindings
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     if client and client.name == "nimlangserver" then
       local opts = { buffer = args.buf, silent = true }
@@ -189,7 +287,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.keymap.set("n", bindings.lsp_references, vim.lsp.buf.references, opts)
       vim.keymap.set("n", bindings.lsp_implementation, vim.lsp.buf.implementation, opts)
       vim.keymap.set("n", bindings.lsp_hover, vim.lsp.buf.hover, opts)
-      vim.keymap.set("n", bindings.lsp_signature_help, vim.lsp.buf.signature_help, opts)
       vim.keymap.set("n", bindings.lsp_rename, vim.lsp.buf.rename, opts)
       vim.keymap.set("n", bindings.lsp_code_action, vim.lsp.buf.code_action, opts)
       vim.keymap.set("n", bindings.lsp_document_symbol, vim.lsp.buf.document_symbol, opts)

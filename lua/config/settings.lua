@@ -51,6 +51,9 @@ return {
     lsp_document_workspace      = "gsS",
     lsp_format                  = "gf",
 
+    nim_diagnostics_float       = "<C-k>",
+    nim_doc_float               = "<C-S-k>",
+
     split_unsplit = "<C-x>0",
     split_onlysplit = "<C-x>1",
     split_horizontal = "<C-x>2",
